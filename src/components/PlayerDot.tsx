@@ -1,6 +1,7 @@
 import { Player } from '@/types/player';
 import { cn } from '@/lib/utils';
 import { User } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
 
 interface PlayerDotProps {
   player: Player;
@@ -16,6 +17,12 @@ export const PlayerDot = ({ player, onClick }: PlayerDotProps) => {
     risk: 'bg-status-risk shadow-[0_0_30px_hsl(var(--status-risk)/0.7)] animate-pulse',
   };
 
+  const progressColors = {
+    fit: '[&>div]:bg-status-fit',
+    tired: '[&>div]:bg-status-tired',
+    risk: '[&>div]:bg-status-risk',
+  };
+
   return (
     <div
       className="absolute cursor-pointer transition-all duration-1000 ease-out hover:scale-125"
@@ -26,6 +33,17 @@ export const PlayerDot = ({ player, onClick }: PlayerDotProps) => {
       }}
       onClick={onClick}
     >
+      {/* Progress bar above player */}
+      <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 bg-black/60 rounded-full p-1">
+        <Progress 
+          value={player.psi} 
+          className={cn('h-2', progressColors[player.status])}
+        />
+        <div className="text-[10px] text-white text-center font-semibold mt-0.5">
+          {player.psi}%
+        </div>
+      </div>
+
       <div
         className={cn(
           'w-10 h-10 rounded-full border-2 border-white flex items-center justify-center transition-all duration-1000',
