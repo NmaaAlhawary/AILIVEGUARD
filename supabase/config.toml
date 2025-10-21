@@ -1,0 +1,10 @@
+project_id = "hnwtayosuausrtqdbwbo"
+
+[functions.get-players]
+verify_jwt = false
+
+[functions.get-player]
+verify_jwt = false
+
+[functions.get-substitutes]
+verify_jwt = false
