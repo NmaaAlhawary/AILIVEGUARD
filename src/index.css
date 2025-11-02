@@ -8,52 +8,52 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 220 30% 6%;
-    --foreground: 210 40% 98%;
+    --background: 220 100% 95%;
+    --foreground: 220 15% 15%;
 
-    --card: 220 25% 10%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
 
-    --popover: 220 25% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
 
-    --primary: 214 100% 50%;
+    --primary: 214 100% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 100% 45%;
+    --secondary: 340 85% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 20% 18%;
-    --muted-foreground: 215 15% 60%;
+    --muted: 220 20% 85%;
+    --muted-foreground: 220 15% 40%;
 
-    --accent: 280 85% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 45 100% 60%;
+    --accent-foreground: 220 15% 15%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 25% 15%;
-    --input: 220 25% 15%;
-    --ring: 214 100% 50%;
+    --border: 220 20% 85%;
+    --input: 220 20% 85%;
+    --ring: 214 100% 55%;
 
-    --radius: 0.5rem;
+    --radius: 1.5rem;
 
-    --status-fit: 142 76% 45%;
-    --status-tired: 43 96% 56%;
-    --status-risk: 0 84% 60%;
+    --status-fit: 142 76% 50%;
+    --status-tired: 43 96% 60%;
+    --status-risk: 0 84% 65%;
 
-    --pitch-grass: 142 40% 25%;
-    --pitch-line: 0 0% 95%;
+    --pitch-grass: 142 60% 45%;
+    --pitch-line: 0 0% 100%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(214 100% 50%), hsl(200 100% 45%));
-    --gradient-secondary: linear-gradient(135deg, hsl(280 85% 60%), hsl(260 85% 55%));
-    --gradient-warning: linear-gradient(135deg, hsl(43 96% 56%), hsl(43 96% 46%));
-    --gradient-danger: linear-gradient(135deg, hsl(0 84% 60%), hsl(0 84% 50%));
+    --gradient-primary: linear-gradient(135deg, hsl(214 100% 65%), hsl(280 85% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(340 85% 65%), hsl(45 100% 65%));
+    --gradient-warning: linear-gradient(135deg, hsl(43 96% 65%), hsl(30 100% 65%));
+    --gradient-danger: linear-gradient(135deg, hsl(0 84% 65%), hsl(15 90% 65%));
 
-    --shadow-glow-fit: 0 0 20px hsl(142 76% 45% / 0.4);
-    --shadow-glow-tired: 0 0 20px hsl(43 96% 56% / 0.4);
-    --shadow-glow-risk: 0 0 20px hsl(0 84% 60% / 0.4);
-    --shadow-glow-ps: 0 0 30px hsl(214 100% 50% / 0.5);
+    --shadow-glow-fit: 0 4px 20px hsl(142 76% 50% / 0.3);
+    --shadow-glow-tired: 0 4px 20px hsl(43 96% 60% / 0.3);
+    --shadow-glow-risk: 0 4px 20px hsl(0 84% 65% / 0.3);
+    --shadow-fun: 0 8px 24px hsl(214 100% 55% / 0.2);
   }
 }
 
@@ -64,5 +64,6 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
   }
 }
