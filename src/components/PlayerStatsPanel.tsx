@@ -34,7 +34,7 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
                 player.status === 'tired' && "text-status-tired",
                 player.status === 'risk' && "text-status-risk"
               )}>
-                {player.psi}%
+                {player.psi.toFixed(2)}%
               </div>
             </div>
 
@@ -44,7 +44,7 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
                   <Activity className="w-3 h-3" />
                   Heart Rate
                 </span>
-                <span className="font-semibold">{player.heartRate} bpm</span>
+                <span className="font-semibold">{player.heartRate.toFixed(2)} bpm</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
@@ -52,7 +52,7 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
                   <Zap className="w-3 h-3" />
                   Speed
                 </span>
-                <span className="font-semibold">{player.speed} km/h</span>
+                <span className="font-semibold">{player.speed.toFixed(2)} km/h</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
@@ -60,7 +60,7 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
                   <AlertTriangle className="w-3 h-3" />
                   Fatigue
                 </span>
-                <span className="font-semibold">{player.fatigue}%</span>
+                <span className="font-semibold">{player.fatigue.toFixed(2)}%</span>
               </div>
 
               <div className="mt-2">
