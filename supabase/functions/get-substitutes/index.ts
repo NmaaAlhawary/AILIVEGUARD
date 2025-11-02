@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const substituteNames = ['Al-Hassan', 'Al-Ghamdi', 'Al-Dosari', 'Bahbri'];
+    const substituteNames = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati'];
     
     const substitutes = substituteNames.map((name, idx) => ({
       id: 100 + idx,

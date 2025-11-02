@@ -1,8 +1,9 @@
 import { Player } from '@/types/player';
 
 const defaultPlayerNames = [
-  'Al-Dawsari', 'Al-Shehri', 'Al-Faraj', 'Al-Burayk', 'Otaif',
-  'Al-Amri', 'Al-Bulaihi', 'Al-Shahrani', 'Al-Owais', 'Kanno', 'Al-Najei'
+  'Ter Stegen', 'Araujo', 'Christensen', 'Kounde',
+  'Balde', 'De Jong', 'Gavi', 'Pedri',
+  'Raphinha', 'Lewandowski', 'Ferran Torres'
 ];
 
 const getPlayerNames = (): string[] => {

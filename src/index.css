@@ -8,35 +8,35 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 220 25% 8%;
+    --background: 220 30% 6%;
     --foreground: 210 40% 98%;
 
-    --card: 220 20% 12%;
+    --card: 220 25% 10%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 20% 12%;
+    --popover: 220 25% 10%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 142 76% 45%;
-    --primary-foreground: 220 25% 8%;
+    --primary: 214 100% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 43 96% 56%;
-    --secondary-foreground: 220 25% 8%;
+    --secondary: 200 100% 45%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 15% 20%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 20% 18%;
+    --muted-foreground: 215 15% 60%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 220 25% 8%;
+    --accent: 280 85% 60%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
-    --ring: 142 76% 45%;
+    --border: 220 25% 15%;
+    --input: 220 25% 15%;
+    --ring: 214 100% 50%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
     --status-fit: 142 76% 45%;
     --status-tired: 43 96% 56%;
@@ -45,13 +45,15 @@ All colors MUST be HSL.
     --pitch-grass: 142 40% 25%;
     --pitch-line: 0 0% 95%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(142 76% 45%), hsl(142 76% 35%));
+    --gradient-primary: linear-gradient(135deg, hsl(214 100% 50%), hsl(200 100% 45%));
+    --gradient-secondary: linear-gradient(135deg, hsl(280 85% 60%), hsl(260 85% 55%));
     --gradient-warning: linear-gradient(135deg, hsl(43 96% 56%), hsl(43 96% 46%));
     --gradient-danger: linear-gradient(135deg, hsl(0 84% 60%), hsl(0 84% 50%));
 
     --shadow-glow-fit: 0 0 20px hsl(142 76% 45% / 0.4);
     --shadow-glow-tired: 0 0 20px hsl(43 96% 56% / 0.4);
     --shadow-glow-risk: 0 0 20px hsl(0 84% 60% / 0.4);
+    --shadow-glow-ps: 0 0 30px hsl(214 100% 50% / 0.5);
   }
 }
 

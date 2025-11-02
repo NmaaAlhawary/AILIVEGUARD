@@ -8,11 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 const defaultPlayers = [
-  'Al-Dawsari', 'Al-Shehri', 'Al-Faraj', 'Al-Burayk', 'Otaif',
-  'Al-Amri', 'Al-Bulaihi', 'Al-Shahrani', 'Al-Owais', 'Kanno', 'Al-Najei'
+  'Ter Stegen', 'Araujo', 'Christensen', 'Kounde',
+  'Balde', 'De Jong', 'Gavi', 'Pedri',
+  'Raphinha', 'Lewandowski', 'Ferran Torres'
 ];
 
-const defaultSubstitutes = ['Al-Hassan', 'Al-Ghamdi', 'Al-Dosari', 'Bahbri'];
+const defaultSubstitutes = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati'];
 
 const ManagePlayers = () => {
   const navigate = useNavigate();

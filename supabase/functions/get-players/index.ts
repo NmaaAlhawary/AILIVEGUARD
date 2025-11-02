@@ -8,17 +8,17 @@ const corsHeaders = {
 // Mock player data that simulates your app's data structure
 const generatePlayers = () => {
   const formations = [
-    { x: 50, y: 90, name: 'Al-Owais' },   // GK
-    { x: 20, y: 70, name: 'Al-Shahrani' },   // LB
-    { x: 40, y: 75, name: 'Al-Bulaihi' },   // CB
-    { x: 60, y: 75, name: 'Al-Amri' },   // CB
-    { x: 80, y: 70, name: 'Al-Burayk' },   // RB
-    { x: 30, y: 50, name: 'Kanno' },   // CM
-    { x: 50, y: 55, name: 'Al-Faraj' },   // CM
-    { x: 70, y: 50, name: 'Al-Najei' },   // CM
-    { x: 20, y: 20, name: 'Al-Dawsari' },   // LW
-    { x: 50, y: 15, name: 'Al-Shehri' },   // ST
-    { x: 80, y: 20, name: 'Otaif' },   // RW
+    { x: 50, y: 90, name: 'Ter Stegen' },   // GK
+    { x: 20, y: 70, name: 'Balde' },   // LB
+    { x: 40, y: 75, name: 'Christensen' },   // CB
+    { x: 60, y: 75, name: 'Araujo' },   // CB
+    { x: 80, y: 70, name: 'Kounde' },   // RB
+    { x: 30, y: 50, name: 'De Jong' },   // CM
+    { x: 50, y: 55, name: 'Gavi' },   // CM
+    { x: 70, y: 50, name: 'Pedri' },   // CM
+    { x: 20, y: 20, name: 'Raphinha' },   // LW
+    { x: 50, y: 15, name: 'Lewandowski' },   // ST
+    { x: 80, y: 20, name: 'Ferran Torres' },   // RW
   ];
 
   return formations.map((player, index) => {

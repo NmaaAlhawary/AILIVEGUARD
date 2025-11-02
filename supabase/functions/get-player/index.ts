@@ -29,9 +29,9 @@ serve(async (req) => {
     }
 
     const playerNames = [
-      'Al-Owais', 'Al-Shahrani', 'Al-Bulaihi', 'Al-Amri', 
-      'Al-Burayk', 'Kanno', 'Al-Faraj', 'Al-Najei',
-      'Al-Dawsari', 'Al-Shehri', 'Otaif'
+      'Ter Stegen', 'Araujo', 'Christensen', 'Kounde', 
+      'Balde', 'De Jong', 'Gavi', 'Pedri',
+      'Raphinha', 'Lewandowski', 'Ferran Torres'
     ];
 
     const id = parseInt(playerId);
