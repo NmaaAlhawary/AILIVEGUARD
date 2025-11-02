@@ -32,21 +32,21 @@ export const SubstitutionAlert = ({ player, onClose }: SubstitutionAlertProps) =
         <div className="space-y-3">
           <p className="text-sm">
             <span className="font-bold">Player #{player.id} {player.name}</span> is experiencing
-            critical fatigue levels (PSI: {player.psi.toFixed(2)}%).
+            critical fatigue levels (PSI: {Math.round(player.psi)}%).
           </p>
           
           <div className="bg-muted/50 rounded-lg p-3 space-y-2 text-sm">
             <div className="flex justify-between">
               <span>Heart Rate:</span>
-              <span className="font-bold text-destructive">{player.heartRate.toFixed(2)} bpm</span>
+              <span className="font-bold text-destructive">{Math.round(player.heartRate)} bpm</span>
             </div>
             <div className="flex justify-between">
               <span>Fatigue:</span>
-              <span className="font-bold text-destructive">{player.fatigue.toFixed(2)}%</span>
+              <span className="font-bold text-destructive">{Math.round(player.fatigue)}%</span>
             </div>
             <div className="flex justify-between">
               <span>PSI:</span>
-              <span className="font-bold text-destructive">{player.psi.toFixed(2)}%</span>
+              <span className="font-bold text-destructive">{Math.round(player.psi)}%</span>
             </div>
           </div>
 

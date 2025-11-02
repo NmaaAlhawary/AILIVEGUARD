@@ -40,7 +40,7 @@ export const PlayerDot = ({ player, onClick }: PlayerDotProps) => {
           className={cn('h-2', progressColors[player.status])}
         />
         <div className="text-[10px] text-white text-center font-semibold mt-0.5">
-          {player.psi.toFixed(2)}%
+          {Math.round(player.psi)}%
         </div>
       </div>
 

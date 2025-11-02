@@ -22,7 +22,7 @@ export const BenchPanel = ({ substitutes, onSubstitute }: BenchPanelProps) => {
               </div>
               <div className="flex items-center gap-2">
                 <div className="text-right">
-                  <div className="text-xl font-bold text-status-fit">{sub.psi.toFixed(2)}%</div>
+                  <div className="text-xl font-bold text-status-fit">{Math.round(sub.psi)}%</div>
                   <div className="text-xs text-muted-foreground">PSI</div>
                 </div>
                 <Button
