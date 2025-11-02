@@ -10,7 +10,7 @@ import { Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-const defaultSubNames = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati'];
+const defaultSubNames = ['Al-Hassan', 'Al-Ghamdi', 'Al-Dosari', 'Bahbri'];
 
 const Index = () => {
   const navigate = useNavigate();
@@ -73,20 +73,20 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-blue-100 to-pink-100 p-4 md:p-6">
+    <div className="min-h-screen bg-background p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         <header className="mb-6 flex items-start justify-between">
           <div>
-            <h1 className="text-4xl md:text-5xl font-black text-primary mb-2 drop-shadow-lg">
-              ⚽ Barcelona Team Tracker! 🎮
+            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
+              AI Player Status Monitor
             </h1>
-            <p className="text-lg text-foreground font-semibold">
-              Watch your players and keep them happy! 😊
+            <p className="text-muted-foreground">
+              Real-time fatigue tracking and substitution recommendations
             </p>
           </div>
-          <Button onClick={() => navigate('/manage')} variant="default" size="lg" className="gap-2 shadow-fun text-lg">
-            <Settings className="h-5 w-5" />
-            Change Names
+          <Button onClick={() => navigate('/manage')} variant="outline" className="gap-2">
+            <Settings className="h-4 w-4" />
+            Manage Players
           </Button>
         </header>
 
@@ -100,18 +100,18 @@ const Index = () => {
           <div className="lg:col-span-6 order-1 lg:order-2">
             <FootballPitch players={players} onPlayerClick={handlePlayerClick} />
             
-            <div className="mt-6 flex items-center justify-center gap-4 text-base font-bold">
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md">
-                <div className="w-6 h-6 rounded-full bg-status-fit" />
-                <span>😊 Happy</span>
+            <div className="mt-4 flex items-center justify-center gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-status-fit" />
+                <span>Fit (60-100%)</span>
               </div>
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md">
-                <div className="w-6 h-6 rounded-full bg-status-tired" />
-                <span>😓 Tired</span>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-status-tired" />
+                <span>Tired (40-59%)</span>
               </div>
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md">
-                <div className="w-6 h-6 rounded-full bg-status-risk" />
-                <span>😰 Need Rest!</span>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-status-risk" />
+                <span>Risk (&lt;40%)</span>
               </div>
             </div>
           </div>
