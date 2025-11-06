@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Save } from 'lucide-react';
+import { Home, Save } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -61,8 +61,9 @@ const ManagePlayers = () => {
             variant="outline"
             size="icon"
             onClick={() => navigate('/')}
+            className="gap-2"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <Home className="h-4 w-4" />
           </Button>
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-status-fit">
