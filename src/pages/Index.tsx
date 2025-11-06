@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import logo from '@/assets/logo.png';
 
 const defaultSubNames = ['Al-Hassan', 'Al-Ghamdi', 'Al-Dosari', 'Bahbri'];
 
@@ -88,13 +87,15 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
-        <header className="mb-6 flex items-center justify-between">
-          <img 
-            src={logo} 
-            alt="AILiveGuard Logo" 
-            className="w-32 h-32 md:w-40 md:h-40 cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={() => navigate('/')}
-          />
+        <header className="mb-6 flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-status-fit mb-2">
+              AILiveGuard System
+            </h1>
+            <p className="text-muted-foreground">
+              Real-time fatigue tracking and substitution recommendations
+            </p>
+          </div>
           <Button onClick={() => navigate('/manage')} variant="outline" className="gap-2">
             <Settings className="h-4 w-4" />
             Manage Players
