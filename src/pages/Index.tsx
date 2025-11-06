@@ -78,7 +78,7 @@ const Index = () => {
         <header className="mb-6 flex items-start justify-between">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-status-fit mb-2">
-              AI Player Status Monitor
+              AILiveGuard System
             </h1>
             <p className="text-muted-foreground">
               Real-time fatigue tracking and substitution recommendations
