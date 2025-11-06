@@ -65,7 +65,7 @@ const ManagePlayers = () => {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-primary">
+            <h1 className="text-3xl md:text-4xl font-bold text-status-fit">
               Manage Players
             </h1>
             <p className="text-muted-foreground">
