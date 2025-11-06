@@ -120,7 +120,7 @@ const ManagePlayers = () => {
           <Button variant="outline" onClick={handleReset}>
             Reset to Defaults
           </Button>
-          <Button onClick={handleSave} className="gap-2">
+          <Button onClick={handleSave} className="gap-2 bg-status-fit hover:bg-status-fit/90 text-white">
             <Save className="h-4 w-4" />
             Save Changes
           </Button>

@@ -20,20 +20,14 @@ export const BenchPanel = ({ substitutes, onSubstitute }: BenchPanelProps) => {
                 <h3 className="font-bold text-sm">{sub.name}</h3>
                 <p className="text-xs text-muted-foreground">Ready to play</p>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="text-right">
-                  <div className="text-xl font-bold text-status-fit">{Math.round(sub.psi)}%</div>
-                  <div className="text-xs text-muted-foreground">PSI</div>
-                </div>
-                <Button
-                  size="icon"
-                  variant="default"
-                  onClick={() => onSubstitute(sub.id)}
-                  className="bg-primary hover:bg-primary/90"
-                >
-                  <UserPlus className="w-4 h-4" />
-                </Button>
-              </div>
+              <Button
+                size="icon"
+                variant="default"
+                onClick={() => onSubstitute(sub.id)}
+                className="bg-primary hover:bg-primary/90"
+              >
+                <UserPlus className="w-4 h-4" />
+              </Button>
             </div>
           </Card>
         ))}

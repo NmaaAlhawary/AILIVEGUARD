@@ -44,10 +44,6 @@ export const SubstitutionAlert = ({ player, onClose }: SubstitutionAlertProps) =
               <span>Fatigue:</span>
               <span className="font-bold text-destructive">{Math.round(player.fatigue)}%</span>
             </div>
-            <div className="flex justify-between">
-              <span>PSI:</span>
-              <span className="font-bold text-destructive">{Math.round(player.psi)}%</span>
-            </div>
           </div>
 
           <div className="bg-destructive/10 border border-destructive/50 rounded-lg p-3">

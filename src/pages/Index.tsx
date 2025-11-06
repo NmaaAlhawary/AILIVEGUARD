@@ -84,7 +84,7 @@ const Index = () => {
               Real-time fatigue tracking and substitution recommendations
             </p>
           </div>
-          <Button onClick={() => navigate('/manage')} variant="outline" className="gap-2">
+          <Button onClick={() => navigate('/manage')} variant="outline" className="gap-2 border-status-fit text-status-fit hover:bg-status-fit hover:text-white">
             <Settings className="h-4 w-4" />
             Manage Players
           </Button>
