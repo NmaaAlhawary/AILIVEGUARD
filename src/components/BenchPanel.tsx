@@ -24,7 +24,7 @@ export const BenchPanel = ({ substitutes, onSubstitute }: BenchPanelProps) => {
                 size="icon"
                 variant="default"
                 onClick={() => onSubstitute(sub.id)}
-                className="bg-primary hover:bg-primary/90"
+                className="bg-status-fit hover:bg-status-fit/90"
               >
                 <UserPlus className="w-4 h-4" />
               </Button>
