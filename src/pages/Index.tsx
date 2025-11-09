@@ -103,7 +103,13 @@ const Index = () => {
     <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
       <div className="max-w-[1800px] mx-auto">
         <header className="mb-6 lg:mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-center md:text-left">
+          <div className="flex flex-col items-center bg-card border border-border rounded-lg px-6 py-3">
+            <span className="text-xs text-muted-foreground mb-1">Match Time</span>
+            <span className="text-2xl md:text-3xl font-bold text-status-fit font-mono">
+              {formatMatchTime(matchTime)}
+            </span>
+          </div>
+          <div className="text-center">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-status-fit mb-2">
               AILiveGuard System
             </h1>
@@ -111,18 +117,7 @@ const Index = () => {
               Real-time fatigue tracking and substitution recommendations
             </p>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex flex-col items-center bg-card border border-border rounded-lg px-6 py-3">
-              <span className="text-xs text-muted-foreground mb-1">Match Time</span>
-              <span className="text-2xl md:text-3xl font-bold text-status-fit font-mono">
-                {formatMatchTime(matchTime)}
-              </span>
-            </div>
-            <Button onClick={() => navigate('/manage')} variant="outline" className="gap-2">
-              <Settings className="h-4 w-4" />
-              Manage Players
-            </Button>
-          </div>
+          <div className="w-[140px]"></div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -153,7 +148,7 @@ const Index = () => {
 
           {/* Right Panel - Bench */}
           <div className="lg:col-span-3 order-3">
-            <BenchPanel substitutes={substitutes} onSubstitute={handleSubstitute} />
+            <BenchPanel substitutes={substitutes} onSubstitute={handleSubstitute} onManagePlayers={() => navigate('/manage')} />
           </div>
         </div>
       </div>

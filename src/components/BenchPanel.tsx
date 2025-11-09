@@ -1,14 +1,15 @@
 import { SubstitutePlayer } from '@/types/player';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
-import { UserPlus } from 'lucide-react';
+import { UserPlus, Settings } from 'lucide-react';
 
 interface BenchPanelProps {
   substitutes: SubstitutePlayer[];
   onSubstitute: (subId: number) => void;
+  onManagePlayers: () => void;
 }
 
-export const BenchPanel = ({ substitutes, onSubstitute }: BenchPanelProps) => {
+export const BenchPanel = ({ substitutes, onSubstitute, onManagePlayers }: BenchPanelProps) => {
   return (
     <div className="space-y-3">
       <h2 className="text-xl font-bold text-foreground mb-4">Available Substitutes</h2>
@@ -32,6 +33,14 @@ export const BenchPanel = ({ substitutes, onSubstitute }: BenchPanelProps) => {
           </Card>
         ))}
       </div>
+      <Button 
+        onClick={onManagePlayers} 
+        variant="outline" 
+        className="w-full gap-2 mt-4"
+      >
+        <Settings className="h-4 w-4" />
+        Manage Players
+      </Button>
     </div>
   );
 };
