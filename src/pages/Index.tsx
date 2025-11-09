@@ -19,6 +19,7 @@ const Index = () => {
   const [alertPlayer, setAlertPlayer] = useState<Player | null>(null);
   const [substitutes, setSubstitutes] = useState<SubstitutePlayer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [matchTime, setMatchTime] = useState(0);
 
   useEffect(() => {
     // Simulate loading time
@@ -42,6 +43,14 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
+    const timer = setInterval(() => {
+      setMatchTime(prev => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setPlayers(prevPlayers => {
         const updated = prevPlayers.map(updatePlayerData);
@@ -60,6 +69,12 @@ const Index = () => {
 
     return () => clearInterval(interval);
   }, [alertPlayer]);
+
+  const formatMatchTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const handleSubstitute = (subId: number) => {
     const lowestPSIPlayer = players
@@ -85,24 +100,32 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-6 flex items-start justify-between">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-status-fit mb-2">
+    <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
+      <div className="max-w-[1800px] mx-auto">
+        <header className="mb-6 lg:mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-status-fit mb-2">
               AILiveGuard System
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-sm md:text-base">
               Real-time fatigue tracking and substitution recommendations
             </p>
           </div>
-          <Button onClick={() => navigate('/manage')} variant="outline" className="gap-2">
-            <Settings className="h-4 w-4" />
-            Manage Players
-          </Button>
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col items-center bg-card border border-border rounded-lg px-6 py-3">
+              <span className="text-xs text-muted-foreground mb-1">Match Time</span>
+              <span className="text-2xl md:text-3xl font-bold text-status-fit font-mono">
+                {formatMatchTime(matchTime)}
+              </span>
+            </div>
+            <Button onClick={() => navigate('/manage')} variant="outline" className="gap-2">
+              <Settings className="h-4 w-4" />
+              Manage Players
+            </Button>
+          </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Left Panel - Stats */}
           <div className="lg:col-span-3 order-2 lg:order-1">
             <PlayerStatsPanel players={players} />
@@ -112,7 +135,7 @@ const Index = () => {
           <div className="lg:col-span-6 order-1 lg:order-2">
             <FootballPitch players={players} onPlayerClick={handlePlayerClick} />
             
-            <div className="mt-4 flex items-center justify-center gap-6 text-sm">
+            <div className="mt-4 lg:mt-6 flex items-center justify-center gap-4 md:gap-6 text-xs md:text-sm">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded-full bg-status-fit" />
                 <span>Fit (60-100%)</span>
