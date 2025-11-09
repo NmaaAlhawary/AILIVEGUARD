@@ -34,7 +34,7 @@ const Index = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setMatchTime(prev => prev > 0 ? prev - 1 : 0);
+      setMatchTime(prev => prev < 90 * 60 ? prev + 1 : prev);
     }, 1000);
 
     return () => clearInterval(timer);
