@@ -5,9 +5,6 @@ import { FootballPitch } from '@/components/FootballPitch';
 import { PlayerStatsPanel } from '@/components/PlayerStatsPanel';
 import { SubstitutionAlert } from '@/components/SubstitutionAlert';
 import { BenchPanel } from '@/components/BenchPanel';
-import { LoadingScreen } from '@/components/LoadingScreen';
-import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -18,28 +15,21 @@ const Index = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [alertPlayer, setAlertPlayer] = useState<Player | null>(null);
   const [substitutes, setSubstitutes] = useState<SubstitutePlayer[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [matchTime, setMatchTime] = useState(0);
 
   useEffect(() => {
-    // Simulate loading time
-    const loadingTimer = setTimeout(() => {
-      const savedSubNames = localStorage.getItem('substituteNames');
-      const subNames = savedSubNames ? JSON.parse(savedSubNames) : defaultSubNames;
-      
-      setSubstitutes(
-        subNames.map((name: string, idx: number) => ({
-          id: 100 + idx,
-          name,
-          psi: 95 + Math.random() * 5,
-        }))
-      );
-      
-      setPlayers(initializePlayers());
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(loadingTimer);
+    const savedSubNames = localStorage.getItem('substituteNames');
+    const subNames = savedSubNames ? JSON.parse(savedSubNames) : defaultSubNames;
+    
+    setSubstitutes(
+      subNames.map((name: string, idx: number) => ({
+        id: 100 + idx,
+        name,
+        psi: 95 + Math.random() * 5,
+      }))
+    );
+    
+    setPlayers(initializePlayers());
   }, []);
 
   useEffect(() => {
@@ -94,10 +84,6 @@ const Index = () => {
   const handlePlayerClick = (player: Player) => {
     toast.info(`${player.name} - PSI: ${player.psi}% | HR: ${player.heartRate} bpm`);
   };
-
-  if (isLoading) {
-    return <LoadingScreen message="Initializing Player Monitoring..." />;
-  }
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
