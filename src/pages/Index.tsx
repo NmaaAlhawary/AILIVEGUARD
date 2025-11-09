@@ -15,7 +15,7 @@ const Index = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [alertPlayer, setAlertPlayer] = useState<Player | null>(null);
   const [substitutes, setSubstitutes] = useState<SubstitutePlayer[]>([]);
-  const [matchTime, setMatchTime] = useState(0);
+  const [matchTime, setMatchTime] = useState(75 * 60); // Start at 75 minutes
 
   useEffect(() => {
     const savedSubNames = localStorage.getItem('substituteNames');
@@ -34,7 +34,7 @@ const Index = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setMatchTime(prev => prev + 1);
+      setMatchTime(prev => prev > 0 ? prev - 1 : 0);
     }, 1000);
 
     return () => clearInterval(timer);
