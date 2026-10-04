@@ -1,73 +1,97 @@
-# Welcome to your Lovable project
+# ai-sideline-pro-53951
 
-## Project info
+itle:
+AI Player Status & Substitution Assistant (Prototype)
 
-**URL**: https://lovable.dev/projects/1e77875c-6bb7-4a8f-8ad9-e72da7f0b517
+Goal:
+Build a simple, live-updating dashboard that helps a coach decide when a football player should rest or be substituted. The dashboard shows each player’s energy level, fatigue, and risk, calculated from simulated sensor data.
 
-## How can I edit this code?
+🔧 What to Build
 
-There are several ways of editing your application.
+1. Data simulator
 
-**Use Lovable**
+Write a small Python script that generates fake data every few seconds for 11 players.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1e77875c-6bb7-4a8f-8ad9-e72da7f0b517) and start prompting.
+Each player record should include:
+player_id, heart_rate, speed, fatigue, and a computed readiness score (0–100 %).
 
-Changes made via Lovable will be committed automatically to this repo.
+Send this data to the web dashboard through WebSocket or Firebase.
 
-**Use your preferred IDE**
+2. Backend (simple server)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Receive the simulated data.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Calculate:
 
-Follow these steps:
+PSI (Player Status Index): starts at 100, decreases as HR ↑ or fatigue ↑.
+
+Risk: “Low / Medium / High” depending on PSI.
+
+Push updated values to the frontend every 3 s.
+(FastAPI or Node + Socket.IO are fine.)
+
+3. Frontend (coach view)
+
+Make a web app (React, Vite, or plain HTML/JS).
+
+Display a mini football pitch with 11 colored dots:
+
+Green = fit, Yellow = getting tired, Red = risk/high fatigue.
+
+Right side panel: player name + heart-rate + PSI bar.
+
+When a player’s PSI < 40 %, show a popup:
+“⚠ Player 7 fatigued – substitute within 2 minutes.”
+
+Add a “Bench” area with fresh substitute players (static).
+
+Include a button “Substitute” that resets the color (simulating a new player).
+
+4. Optional polish
+
+Add an Arabic/English language toggle.
+
+Include a simple line chart (PSI vs time) for one player.
+
+Add short voice alert (“Player 5 needs rest”).
+
+🧱 Tech stack suggestion
+
+Backend: Python FastAPI + Socket.IO or Node Express.
+
+Frontend: React / Vite or HTML + p5.js canvas for the pitch.
+
+Data: Simulated JSON stream.
+
+Realtime: WebSocket or Firebase Realtime DB.
+
+🗓 Suggested timeline
+Day	Task
+1–2	Simulator + backend API ready (“/live”)
+3–4	Frontend pitch UI + WebSocket connection
+5–6	PSI/risk formula + alert logic
+7	Polish UI + demo script (“Watch Player 8 turn red → AI recommends substitution”)
+✅ Deliverables
+
+This project was built with [Lovable](https://lovable.dev).
+
+**Live app**: https://ai-sideline-pro-53951.lovable.app
+
+## Build with Lovable
+
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/cb3add4b-0b0b-4aae-8b38-a74a9d92f60e).
+
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+
+## Development
+
+Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
+git clone <this-repository-url>
+cd <repository-name>
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/1e77875c-6bb7-4a8f-8ad9-e72da7f0b517) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
