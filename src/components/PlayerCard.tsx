@@ -34,23 +34,24 @@ export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
 
   return (
     <Dialog open={!!player} onOpenChange={open => !open && onClose()}>
-      <DialogContent className="max-w-md border-none bg-transparent p-0 shadow-none">
+      <DialogContent className="max-h-[92vh] max-w-md overflow-y-auto border-none bg-transparent p-0 shadow-none">
         <div
           className="relative overflow-hidden rounded-3xl p-6 text-white"
           style={{
-            background: `linear-gradient(160deg, hsl(var(${token})) 0%, hsl(var(${token}) / 0.55) 38%, hsl(222 47% 8%) 78%)`,
+            backgroundColor: 'hsl(222 47% 7%)',
+            backgroundImage: `linear-gradient(160deg, hsl(var(${token}) / 0.85) 0%, hsl(var(${token}) / 0.4) 40%, transparent 72%)`,
           }}
         >
           <div className="flex gap-4">
             <div className="flex flex-col items-center pt-1">
-              <span className="text-5xl font-black leading-none drop-shadow">
+              <span className="text-6xl font-black leading-none drop-shadow">
                 {Math.round(player.psi)}
               </span>
-              <span className="mt-1 text-sm font-bold tracking-widest opacity-90">
+              <span className="mt-1 text-base font-bold tracking-widest opacity-90">
                 {player.role}
               </span>
               <div className="my-2 h-px w-8 bg-white/50" />
-              <span className="text-xs font-bold opacity-80">#{player.id}</span>
+              <span className="text-sm font-bold opacity-80">#{player.id}</span>
             </div>
 
             <div className="flex flex-1 items-end justify-center">
@@ -69,7 +70,7 @@ export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
           </div>
 
           <div className="mt-4 border-y border-white/30 py-2 text-center">
-            <DialogTitle className="text-xl font-black uppercase tracking-wide">
+            <DialogTitle className="text-2xl font-black uppercase tracking-wide">
               {player.name}
             </DialogTitle>
             <DialogDescription className="sr-only">
@@ -81,13 +82,13 @@ export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
           <div className="mt-3 grid grid-cols-3 gap-2">
             {stats.map(stat => (
               <div key={stat.label} className="rounded-lg bg-black/25 px-1 py-2 text-center">
-                <div className="text-xl font-black leading-none">
+                <div className="text-2xl font-black leading-none">
                   {stat.value}
                   {stat.unit && (
-                    <span className="ml-0.5 text-[10px] font-bold opacity-75">{stat.unit}</span>
+                    <span className="ml-1 text-xs font-bold opacity-80">{stat.unit}</span>
                   )}
                 </div>
-                <div className="mt-1 text-[10px] font-semibold leading-none opacity-80">
+                <div className="mt-1.5 text-xs font-semibold leading-none opacity-90">
                   {stat.label}
                 </div>
               </div>
@@ -99,12 +100,12 @@ export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
           </div>
 
           {player.reasons.length > 0 && (
-            <div className="mt-4 space-y-1 rounded-xl bg-black/35 p-3">
-              <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">
+            <div className="mt-4 space-y-1.5 rounded-xl bg-black/45 p-4">
+              <p className="text-xs font-bold uppercase tracking-widest opacity-80">
                 Why this reading
               </p>
               {player.reasons.slice(0, 3).map(reason => (
-                <p key={reason.label} className="text-sm leading-snug">
+                <p key={reason.label} className="text-base leading-snug">
                   <span className="font-bold">{reason.label}</span>{' '}
                   <span className="opacity-85">{reason.detail}</span>
                 </p>
@@ -114,7 +115,7 @@ export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
 
           <div
             className={cn(
-              'mt-3 rounded-xl py-2 text-center text-xs font-bold uppercase tracking-wide',
+              'mt-3 rounded-xl py-3 text-center text-sm font-bold uppercase tracking-wide',
               player.status === 'fit' && 'bg-black/30',
               player.status === 'tired' && 'bg-black/40',
               player.status === 'risk' && 'bg-black/50'

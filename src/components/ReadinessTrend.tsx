@@ -7,9 +7,9 @@ interface ReadinessTrendProps {
 }
 
 const WIDTH = 300;
-const HEIGHT = 96;
-const TOP = 10;
-const BOTTOM = 18;
+const HEIGHT = 120;
+const TOP = 14;
+const BOTTOM = 26;
 const Y_MIN = 20;
 const Y_MAX = 100;
 const RISK_LINE = 40;
@@ -28,7 +28,7 @@ export const ReadinessTrend = ({ history, status }: ReadinessTrendProps) => {
 
   if (samples.length < 2) {
     return (
-      <div className="flex h-24 items-center justify-center rounded-xl bg-black/35 text-[11px] opacity-70">
+      <div className="flex h-28 items-center justify-center rounded-xl bg-black/45 text-sm opacity-80">
         Collecting readings…
       </div>
     );
@@ -60,12 +60,12 @@ export const ReadinessTrend = ({ history, status }: ReadinessTrendProps) => {
   };
 
   return (
-    <div className="rounded-xl bg-black/35 p-3">
+    <div className="rounded-xl bg-black/45 p-4">
       <div className="mb-1.5 flex items-baseline justify-between">
-        <span className="text-[10px] font-bold uppercase tracking-widest opacity-70">
+        <span className="text-xs font-bold uppercase tracking-widest opacity-85">
           Readiness over time
         </span>
-        <span className="text-[10px] opacity-70">last {minutesShown} min</span>
+        <span className="text-xs opacity-80">last {minutesShown} min</span>
       </div>
 
       <svg
@@ -94,7 +94,7 @@ export const ReadinessTrend = ({ history, status }: ReadinessTrendProps) => {
           strokeDasharray="4 4"
           opacity="0.75"
         />
-        <text x="2" y={y(RISK_LINE) - 3} fill="hsl(var(--status-risk))" fontSize="8" fontWeight="700">
+        <text x="2" y={y(RISK_LINE) - 3} fill="hsl(var(--status-risk))" fontSize="11" fontWeight="800">
           RISK 40%
         </text>
 
@@ -124,7 +124,7 @@ export const ReadinessTrend = ({ history, status }: ReadinessTrendProps) => {
         <circle
           cx={x(active.elapsed)}
           cy={y(active.psi)}
-          r="4.5"
+          r="5.5"
           fill="#fff"
           stroke={stroke}
           strokeWidth="2.5"
@@ -134,17 +134,17 @@ export const ReadinessTrend = ({ history, status }: ReadinessTrendProps) => {
           x={Math.min(WIDTH - 4, Math.max(16, x(active.elapsed)))}
           y={Math.max(9, y(active.psi) - 9)}
           fill="#fff"
-          fontSize="11"
+          fontSize="14"
           fontWeight="800"
           textAnchor={x(active.elapsed) > WIDTH - 40 ? 'end' : 'middle'}
         >
           {Math.round(active.psi)}%
         </text>
 
-        <text x="0" y={HEIGHT - 4} fill="#fff" fontSize="8" opacity="0.6">
+        <text x="0" y={HEIGHT - 4} fill="#fff" fontSize="11" opacity="0.75">
           {minutesShown} min ago
         </text>
-        <text x={WIDTH} y={HEIGHT - 4} fill="#fff" fontSize="8" opacity="0.6" textAnchor="end">
+        <text x={WIDTH} y={HEIGHT - 4} fill="#fff" fontSize="11" opacity="0.75" textAnchor="end">
           now
         </text>
       </svg>
