@@ -1,7 +1,7 @@
 import { SubstitutePlayer } from '@/types/player';
-import { Card } from './ui/card';
 import { Button } from './ui/button';
-import { UserPlus, Settings } from 'lucide-react';
+import { Settings, UserPlus } from 'lucide-react';
+import { getInitials } from '@/utils/playerPhotos';
 
 interface BenchPanelProps {
   substitutes: SubstitutePlayer[];
@@ -11,36 +11,55 @@ interface BenchPanelProps {
 
 export const BenchPanel = ({ substitutes, onSubstitute, onManagePlayers }: BenchPanelProps) => {
   return (
-    <div className="space-y-3">
-      <h2 className="text-xl font-bold text-foreground mb-4">Available Substitutes</h2>
+    <section className="space-y-3">
+      <header className="flex items-baseline justify-between">
+        <h2 className="panel-heading">Substitutes</h2>
+        <span className="text-[11px] font-semibold text-muted-foreground tabular">
+          {substitutes.length} available
+        </span>
+      </header>
+
       <div className="space-y-2">
-        {substitutes.map((sub) => (
-          <Card key={sub.id} className="p-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-sm">{sub.name}</h3>
-                <p className="text-xs text-muted-foreground">Ready to play</p>
-              </div>
-              <Button
-                size="icon"
-                variant="default"
-                onClick={() => onSubstitute(sub.id)}
-                className="bg-status-fit hover:bg-status-fit/90"
-              >
-                <UserPlus className="w-4 h-4" />
-              </Button>
+        {substitutes.map(sub => (
+          <article
+            key={sub.id}
+            className="group flex items-center gap-2.5 rounded-xl border border-border/70 bg-card/80 p-3 transition-colors hover:border-status-fit/50"
+            style={{ boxShadow: 'var(--shadow-card)' }}
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted ring-2 ring-status-fit/50">
+              {sub.photo ? (
+                <img src={sub.photo} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-[11px] font-black text-muted-foreground">
+                  {getInitials(sub.name)}
+                </span>
+              )}
             </div>
-          </Card>
+
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate text-sm font-bold leading-tight">{sub.name}</h3>
+              <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-status-fit" />
+                Fresh · {Math.round(sub.psi)}%
+              </p>
+            </div>
+
+            <Button
+              size="icon"
+              onClick={() => onSubstitute(sub.id)}
+              aria-label={`Bring on ${sub.name}`}
+              className="h-9 w-9 shrink-0 bg-status-fit text-white hover:bg-status-fit/90"
+            >
+              <UserPlus className="h-4 w-4" />
+            </Button>
+          </article>
         ))}
       </div>
-      <Button 
-        onClick={onManagePlayers} 
-        variant="outline" 
-        className="w-full gap-2 mt-4"
-      >
+
+      <Button onClick={onManagePlayers} variant="outline" className="mt-4 w-full gap-2">
         <Settings className="h-4 w-4" />
         Manage Players
       </Button>
-    </div>
+    </section>
   );
 };

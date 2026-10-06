@@ -1,4 +1,7 @@
 import { FatigueReason, Player, PlayerBaseline, PsiSample } from '@/types/player';
+import { FIELD_PHOTOS_KEY, loadPhotos } from '@/utils/playerPhotos';
+
+const roles = ['GK', 'LB', 'CB', 'CB', 'RB', 'CM', 'CM', 'CM', 'LW', 'ST', 'RW'];
 
 const defaultPlayerNames = [
   'Ter Stegen', 'Araujo', 'Christensen', 'Kounde',
@@ -182,6 +185,7 @@ const applyLoad = (player: Player, load: number): Player => {
 
 export const initializePlayers = (): Player[] => {
   const playerNames = getPlayerNames();
+  const photos = loadPhotos(FIELD_PHOTOS_KEY);
 
   return formations['4-3-3'].map((pos, index) => {
     const profile = profiles[index];
@@ -195,6 +199,8 @@ export const initializePlayers = (): Player[] => {
       psi: 100,
       status: 'fit',
       isOnField: true,
+      role: roles[index],
+      photo: photos[index],
       baseline: profile.baseline,
       load: profile.startLoad,
       rollingTopSpeed: profile.baseline.topSpeed,

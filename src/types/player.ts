@@ -26,6 +26,8 @@ export interface Player {
   psi: number;
   status: 'fit' | 'tired' | 'risk';
   isOnField: boolean;
+  role: string;
+  photo?: string;
   baseline: PlayerBaseline;
   load: number;
   rollingTopSpeed: number;
@@ -41,4 +43,5 @@ export interface SubstitutePlayer {
   id: number;
   name: string;
   psi: number;
+  photo?: string;
 }

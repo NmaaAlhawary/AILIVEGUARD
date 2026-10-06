@@ -3,9 +3,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Home, Save } from 'lucide-react';
+import { Home, Save, Upload, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import {
+  FIELD_PHOTOS_KEY,
+  SUB_PHOTOS_KEY,
+  PhotoMap,
+  getInitials,
+  loadPhotos,
+  readPhotoFile,
+  savePhotos,
+} from '@/utils/playerPhotos';
 
 const defaultPlayers = [
   'Ter Stegen', 'Araujo', 'Christensen', 'Kounde',
@@ -15,10 +25,64 @@ const defaultPlayers = [
 
 const defaultSubstitutes = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati'];
 
+interface PhotoPickerProps {
+  id: string;
+  name: string;
+  photo?: string;
+  onSelect: (file: File | undefined) => void;
+  onRemove: () => void;
+}
+
+const PhotoPicker = ({ id, name, photo, onSelect, onRemove }: PhotoPickerProps) => (
+  <div className="relative shrink-0">
+    <label
+      htmlFor={id}
+      className="group flex h-12 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-border bg-muted transition-colors hover:border-status-fit"
+      title="Upload a photo"
+    >
+      {photo ? (
+        <img src={photo} alt={name} className="h-full w-full object-cover" />
+      ) : name ? (
+        <span className="text-xs font-bold text-muted-foreground group-hover:hidden">
+          {getInitials(name)}
+        </span>
+      ) : null}
+      <Upload
+        className={cn(
+          'h-4 w-4 text-muted-foreground',
+          photo ? 'hidden' : 'hidden group-hover:block'
+        )}
+      />
+    </label>
+    <input
+      id={id}
+      type="file"
+      accept="image/*"
+      className="sr-only"
+      onChange={(e) => {
+        onSelect(e.target.files?.[0]);
+        e.target.value = '';
+      }}
+    />
+    {photo && (
+      <button
+        type="button"
+        onClick={onRemove}
+        aria-label={`Remove photo for ${name}`}
+        className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow"
+      >
+        <X className="h-3 w-3" />
+      </button>
+    )}
+  </div>
+);
+
 const ManagePlayers = () => {
   const navigate = useNavigate();
   const [playerNames, setPlayerNames] = useState<string[]>([]);
   const [substituteNames, setSubstituteNames] = useState<string[]>([]);
+  const [playerPhotos, setPlayerPhotos] = useState<PhotoMap>({});
+  const [substitutePhotos, setSubstitutePhotos] = useState<PhotoMap>({});
 
   useEffect(() => {
     const savedPlayers = localStorage.getItem('playerNames');
@@ -26,7 +90,31 @@ const ManagePlayers = () => {
     
     setPlayerNames(savedPlayers ? JSON.parse(savedPlayers) : defaultPlayers);
     setSubstituteNames(savedSubs ? JSON.parse(savedSubs) : defaultSubstitutes);
+    setPlayerPhotos(loadPhotos(FIELD_PHOTOS_KEY));
+    setSubstitutePhotos(loadPhotos(SUB_PHOTOS_KEY));
   }, []);
+
+  const handlePhotoChange = async (
+    index: number,
+    file: File | undefined,
+    setPhotos: (updater: (prev: PhotoMap) => PhotoMap) => void
+  ) => {
+    if (!file) return;
+    try {
+      const photo = await readPhotoFile(file);
+      setPhotos(prev => ({ ...prev, [index]: photo }));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Could not use that image');
+    }
+  };
+
+  const removePhoto = (index: number, setPhotos: (updater: (prev: PhotoMap) => PhotoMap) => void) => {
+    setPhotos(prev => {
+      const next = { ...prev };
+      delete next[index];
+      return next;
+    });
+  };
 
   const handlePlayerNameChange = (index: number, value: string) => {
     const updated = [...playerNames];
@@ -41,16 +129,25 @@ const ManagePlayers = () => {
   };
 
   const handleSave = () => {
-    localStorage.setItem('playerNames', JSON.stringify(playerNames));
-    localStorage.setItem('substituteNames', JSON.stringify(substituteNames));
-    toast.success('Player names saved successfully!');
+    try {
+      localStorage.setItem('playerNames', JSON.stringify(playerNames));
+      localStorage.setItem('substituteNames', JSON.stringify(substituteNames));
+      savePhotos(FIELD_PHOTOS_KEY, playerPhotos);
+      savePhotos(SUB_PHOTOS_KEY, substitutePhotos);
+    } catch {
+      toast.error('Not enough browser storage for these photos. Try removing a few.');
+      return;
+    }
+    toast.success('Players saved successfully!');
     navigate('/');
   };
 
   const handleReset = () => {
     setPlayerNames(defaultPlayers);
     setSubstituteNames(defaultSubstitutes);
-    toast.info('Names reset to defaults');
+    setPlayerPhotos({});
+    setSubstitutePhotos({});
+    toast.info('Names and photos reset to defaults');
   };
 
   return (
@@ -70,7 +167,7 @@ const ManagePlayers = () => {
               Manage Players
             </h1>
             <p className="text-muted-foreground">
-              Update player and substitute names
+              Update names and photos
             </p>
           </div>
         </div>
@@ -85,12 +182,21 @@ const ManagePlayers = () => {
               {playerNames.map((name, index) => (
                 <div key={index} className="space-y-2">
                   <Label htmlFor={`player-${index}`}>Player {index + 1}</Label>
-                  <Input
-                    id={`player-${index}`}
-                    value={name}
-                    onChange={(e) => handlePlayerNameChange(index, e.target.value)}
-                    placeholder={`Player ${index + 1} name`}
-                  />
+                  <div className="flex items-center gap-3">
+                    <PhotoPicker
+                      id={`player-photo-${index}`}
+                      name={name}
+                      photo={playerPhotos[index]}
+                      onSelect={(file) => handlePhotoChange(index, file, setPlayerPhotos)}
+                      onRemove={() => removePhoto(index, setPlayerPhotos)}
+                    />
+                    <Input
+                      id={`player-${index}`}
+                      value={name}
+                      onChange={(e) => handlePlayerNameChange(index, e.target.value)}
+                      placeholder={`Player ${index + 1} name`}
+                    />
+                  </div>
                 </div>
               ))}
             </CardContent>
@@ -105,12 +211,21 @@ const ManagePlayers = () => {
               {substituteNames.map((name, index) => (
                 <div key={index} className="space-y-2">
                   <Label htmlFor={`sub-${index}`}>Substitute {index + 1}</Label>
-                  <Input
-                    id={`sub-${index}`}
-                    value={name}
-                    onChange={(e) => handleSubNameChange(index, e.target.value)}
-                    placeholder={`Substitute ${index + 1} name`}
-                  />
+                  <div className="flex items-center gap-3">
+                    <PhotoPicker
+                      id={`sub-photo-${index}`}
+                      name={name}
+                      photo={substitutePhotos[index]}
+                      onSelect={(file) => handlePhotoChange(index, file, setSubstitutePhotos)}
+                      onRemove={() => removePhoto(index, setSubstitutePhotos)}
+                    />
+                    <Input
+                      id={`sub-${index}`}
+                      value={name}
+                      onChange={(e) => handleSubNameChange(index, e.target.value)}
+                      placeholder={`Substitute ${index + 1} name`}
+                    />
+                  </div>
                 </div>
               ))}
             </CardContent>
