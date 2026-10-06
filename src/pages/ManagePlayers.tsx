@@ -16,6 +16,7 @@ import {
   readPhotoFile,
   savePhotos,
 } from '@/utils/playerPhotos';
+import { getDefaultPhoto } from '@/utils/defaultPhotos';
 
 const defaultPlayers = [
   'Ter Stegen', 'Araujo', 'Christensen', 'Kounde',
@@ -33,15 +34,17 @@ interface PhotoPickerProps {
   onRemove: () => void;
 }
 
-const PhotoPicker = ({ id, name, photo, onSelect, onRemove }: PhotoPickerProps) => (
+const PhotoPicker = ({ id, name, photo, onSelect, onRemove }: PhotoPickerProps) => {
+  const shown = photo ?? getDefaultPhoto(name);
+  return (
   <div className="relative shrink-0">
     <label
       htmlFor={id}
       className="group flex h-12 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-border bg-muted transition-colors hover:border-status-fit"
       title="Upload a photo"
     >
-      {photo ? (
-        <img src={photo} alt={name} className="h-full w-full object-cover" />
+      {shown ? (
+        <img src={shown} alt={name} className="h-full w-full object-cover" />
       ) : name ? (
         <span className="text-xs font-bold text-muted-foreground group-hover:hidden">
           {getInitials(name)}
@@ -50,7 +53,7 @@ const PhotoPicker = ({ id, name, photo, onSelect, onRemove }: PhotoPickerProps) 
       <Upload
         className={cn(
           'h-4 w-4 text-muted-foreground',
-          photo ? 'hidden' : 'hidden group-hover:block'
+          shown ? 'hidden' : 'hidden group-hover:block'
         )}
       />
     </label>
@@ -75,7 +78,8 @@ const PhotoPicker = ({ id, name, photo, onSelect, onRemove }: PhotoPickerProps) 
       </button>
     )}
   </div>
-);
+  );
+};
 
 const ManagePlayers = () => {
   const navigate = useNavigate();

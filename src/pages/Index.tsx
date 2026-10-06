@@ -7,10 +7,11 @@ import { SubstitutionAlert } from '@/components/SubstitutionAlert';
 import { BenchPanel } from '@/components/BenchPanel';
 import { PlayerCard } from '@/components/PlayerCard';
 import { SUB_PHOTOS_KEY, loadPhotos } from '@/utils/playerPhotos';
+import { getDefaultPhoto } from '@/utils/defaultPhotos';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-const defaultSubNames = ['Al-Hassan', 'Al-Ghamdi', 'Al-Dosari', 'Bahbri'];
+const defaultSubNames = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati'];
 
 const Index = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const Index = () => {
         id: 100 + idx,
         name,
         psi: 95 + Math.random() * 5,
-        photo: subPhotos[idx],
+        photo: subPhotos[idx] ?? getDefaultPhoto(name),
       }))
     );
     
@@ -96,19 +97,45 @@ const Index = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleSubstitute = (subId: number) => {
-    const lowestPSIPlayer = players
-      .filter(p => p.isOnField)
-      .reduce((prev, current) => (prev.psi < current.psi ? prev : current));
+  // A substitution swaps the fresh player into the tired one's shirt: same
+  // position and number, his own name and photo, and a clean slate of load.
+  const handleSubstitute = (subId: number, targetPlayerId?: number) => {
+    const incoming = substitutes.find(s => s.id === subId);
+    if (!incoming) return;
+
+    const onField = players.filter(p => p.isOnField);
+    if (onField.length === 0) return;
+
+    const outgoing = targetPlayerId
+      ? onField.find(p => p.id === targetPlayerId)
+      : onField.reduce((prev, current) => (prev.psi < current.psi ? prev : current));
+    if (!outgoing) return;
 
     setPlayers(prevPlayers =>
       prevPlayers.map(p =>
-        p.id === lowestPSIPlayer.id ? { ...p, isOnField: false } : p
+        p.id === outgoing.id
+          ? {
+              ...p,
+              name: incoming.name,
+              photo: incoming.photo,
+              load: 0.05,
+              history: [],
+              elapsed: 0,
+              trendPerMinute: 0,
+              minutesToRisk: null,
+              reasons: [],
+            }
+          : p
       )
     );
 
-    toast.success(`${lowestPSIPlayer.name} substituted successfully!`);
+    setSubstitutes(prev => prev.filter(s => s.id !== subId));
+    alertedRef.current.delete(outgoing.id);
+    forecastWarnedRef.current.delete(outgoing.id);
+
+    toast.success(`${incoming.name} on for ${outgoing.name}`);
     setAlertPlayer(null);
+    setCardPlayer(null);
   };
 
   const liveCardPlayer = cardPlayer
@@ -177,8 +204,18 @@ const Index = () => {
         </div>
       </div>
 
-      <PlayerCard player={liveCardPlayer} onClose={() => setCardPlayer(null)} />
-      <SubstitutionAlert player={liveAlertPlayer} onClose={() => setAlertPlayer(null)} />
+      <PlayerCard
+        player={liveCardPlayer}
+        substitutes={substitutes}
+        onSubstitute={handleSubstitute}
+        onClose={() => setCardPlayer(null)}
+      />
+      <SubstitutionAlert
+        player={liveAlertPlayer}
+        substitutes={substitutes}
+        onSubstitute={handleSubstitute}
+        onClose={() => setAlertPlayer(null)}
+      />
     </div>
   );
 };

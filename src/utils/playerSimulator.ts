@@ -1,5 +1,6 @@
 import { FatigueReason, Player, PlayerBaseline, PsiSample } from '@/types/player';
 import { FIELD_PHOTOS_KEY, loadPhotos } from '@/utils/playerPhotos';
+import { getDefaultPhoto } from '@/utils/defaultPhotos';
 
 const roles = ['GK', 'LB', 'CB', 'CB', 'RB', 'CM', 'CM', 'CM', 'LW', 'ST', 'RW'];
 
@@ -200,7 +201,7 @@ export const initializePlayers = (): Player[] => {
       status: 'fit',
       isOnField: true,
       role: roles[index],
-      photo: photos[index],
+      photo: photos[index] ?? getDefaultPhoto(playerNames[index]),
       baseline: profile.baseline,
       load: profile.startLoad,
       rollingTopSpeed: profile.baseline.topSpeed,

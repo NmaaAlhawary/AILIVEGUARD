@@ -1,11 +1,17 @@
-import { Player } from '@/types/player';
+import { useState } from 'react';
+import { Player, SubstitutePlayer } from '@/types/player';
 import { getInitials } from '@/utils/playerPhotos';
+import { ArrowRightLeft } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dialog';
 import { cn } from '@/lib/utils';
 import { ReadinessTrend } from './ReadinessTrend';
+import { SubstitutePicker } from './SubstitutePicker';
+import { Button } from './ui/button';
 
 interface PlayerCardProps {
   player: Player | null;
+  substitutes: SubstitutePlayer[];
+  onSubstitute: (subId: number, playerId: number) => void;
   onClose: () => void;
 }
 
@@ -15,7 +21,14 @@ const statusToken = {
   risk: '--status-risk',
 } as const;
 
-export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
+export const PlayerCard = ({
+  player,
+  substitutes,
+  onSubstitute,
+  onClose,
+}: PlayerCardProps) => {
+  const [picking, setPicking] = useState(false);
+
   if (!player) return null;
 
   const token = statusToken[player.status];
@@ -127,6 +140,36 @@ export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
                 ? `High risk in about ${player.minutesToRisk} minutes`
                 : 'Holding up well'}
           </div>
+
+          {picking ? (
+            <div className="mt-3">
+              <SubstitutePicker
+                substitutes={substitutes}
+                outgoingName={player.name}
+                onPick={subId => onSubstitute(subId, player.id)}
+              />
+              <Button
+                variant="ghost"
+                onClick={() => setPicking(false)}
+                className="mt-2 w-full text-white hover:bg-white/10 hover:text-white"
+              >
+                Cancel
+              </Button>
+            </div>
+          ) : (
+            <Button
+              onClick={() => setPicking(true)}
+              className={cn(
+                'mt-3 w-full gap-2 border-none font-bold',
+                player.status === 'risk'
+                  ? 'bg-white text-black hover:bg-white/90'
+                  : 'bg-black/40 text-white hover:bg-black/55'
+              )}
+            >
+              <ArrowRightLeft className="h-4 w-4" />
+              Substitute this player
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
