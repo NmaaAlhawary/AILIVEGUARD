@@ -42,6 +42,11 @@ export const PlayerDot = ({ player, onClick }: PlayerDotProps) => {
         <div className="text-[10px] text-white text-center font-semibold mt-0.5">
           {Math.round(player.psi)}%
         </div>
+        {player.minutesToRisk !== null && player.minutesToRisk <= 10 && player.status !== 'risk' && (
+          <div className="text-[9px] text-status-tired text-center font-bold leading-tight">
+            ~{player.minutesToRisk}m
+          </div>
+        )}
       </div>
 
       <div

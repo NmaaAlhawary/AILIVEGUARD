@@ -36,13 +36,18 @@ export const SubstitutionAlert = ({ player, onClose }: SubstitutionAlertProps) =
           </p>
           
           <div className="bg-muted/50 rounded-lg p-3 space-y-2 text-sm">
-            <div className="flex justify-between">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              Why this alert
+            </p>
+            {player.reasons.slice(0, 3).map((reason) => (
+              <div key={reason.label} className="flex justify-between gap-3">
+                <span>{reason.label}</span>
+                <span className="font-bold text-destructive text-right">{reason.detail}</span>
+              </div>
+            ))}
+            <div className="flex justify-between pt-2 border-t border-border/50">
               <span>Heart Rate:</span>
               <span className="font-bold text-destructive">{Math.round(player.heartRate)} bpm</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Fatigue:</span>
-              <span className="font-bold text-destructive">{Math.round(player.fatigue)}%</span>
             </div>
           </div>
 

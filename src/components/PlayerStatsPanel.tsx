@@ -1,5 +1,5 @@
 import { Player } from '@/types/player';
-import { Activity, Zap, AlertTriangle } from 'lucide-react';
+import { Activity, Zap, AlertTriangle, TrendingDown } from 'lucide-react';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
 import { cn } from '@/lib/utils';
@@ -28,13 +28,21 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
                 <h3 className="font-bold text-sm">{player.name}</h3>
                 <p className="text-xs text-muted-foreground">#{player.id}</p>
               </div>
-              <div className={cn(
-                "text-2xl font-bold",
-                player.status === 'fit' && "text-status-fit",
-                player.status === 'tired' && "text-status-tired",
-                player.status === 'risk' && "text-status-risk"
-              )}>
-                {Math.round(player.psi)}%
+              <div className="text-right">
+                <div className={cn(
+                  "text-2xl font-bold leading-none",
+                  player.status === 'fit' && "text-status-fit",
+                  player.status === 'tired' && "text-status-tired",
+                  player.status === 'risk' && "text-status-risk"
+                )}>
+                  {Math.round(player.psi)}%
+                </div>
+                {player.minutesToRisk !== null && player.minutesToRisk <= 10 && player.status !== 'risk' && (
+                  <div className="flex items-center justify-end gap-1 text-[10px] text-status-tired mt-1">
+                    <TrendingDown className="w-3 h-3" />
+                    <span>risk in ~{player.minutesToRisk} min</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -74,6 +82,16 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
                   )}
                 />
               </div>
+
+              {player.status !== 'fit' && player.reasons.length > 0 && (
+                <div className="mt-2 pt-2 border-t border-border/50 space-y-0.5">
+                  {player.reasons.slice(0, 2).map((reason) => (
+                    <p key={reason.label} className="text-[11px] text-muted-foreground leading-snug">
+                      <span className="font-semibold text-foreground">{reason.label}</span> {reason.detail}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </Card>
         ))}

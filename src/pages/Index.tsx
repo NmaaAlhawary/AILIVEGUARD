@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Player, SubstitutePlayer } from '@/types/player';
 import { initializePlayers, updatePlayerData } from '@/utils/playerSimulator';
 import { FootballPitch } from '@/components/FootballPitch';
@@ -16,6 +16,8 @@ const Index = () => {
   const [alertPlayer, setAlertPlayer] = useState<Player | null>(null);
   const [substitutes, setSubstitutes] = useState<SubstitutePlayer[]>([]);
   const [matchTime, setMatchTime] = useState(75 * 60); // Start at 75 minutes
+  const alertedRef = useRef<Set<number>>(new Set());
+  const forecastWarnedRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
     const savedSubNames = localStorage.getItem('substituteNames');
@@ -44,21 +46,44 @@ const Index = () => {
     const interval = setInterval(() => {
       setPlayers(prevPlayers => {
         const updated = prevPlayers.map(updatePlayerData);
-        
-        const criticalPlayer = updated.find(p => p.isOnField && p.psi < 40 && p.psi >= 35);
-        if (criticalPlayer && (!alertPlayer || alertPlayer.id !== criticalPlayer.id)) {
-          setAlertPlayer(criticalPlayer);
-          toast.error(`⚠ Player ${criticalPlayer.name} needs immediate rest!`, {
-            duration: 5000,
-          });
+
+        // Early warning, while there is still time to react.
+        updated.forEach(player => {
+          const approaching =
+            player.isOnField &&
+            player.status !== 'risk' &&
+            player.minutesToRisk !== null &&
+            player.minutesToRisk <= 5;
+
+          if (approaching && !forecastWarnedRef.current.has(player.id)) {
+            forecastWarnedRef.current.add(player.id);
+            const [topReason] = player.reasons;
+            toast.warning(
+              `${player.name}: fatigue rising — high risk in about ${player.minutesToRisk} minutes`,
+              {
+                description: topReason ? `${topReason.label} ${topReason.detail}` : undefined,
+                duration: 6000,
+              }
+            );
+          }
+        });
+
+        // Fire the moment a player crosses into the red zone, once per player.
+        const crossed = updated.find(
+          player => player.isOnField && player.status === 'risk' && !alertedRef.current.has(player.id)
+        );
+        if (crossed) {
+          alertedRef.current.add(crossed.id);
+          setAlertPlayer(crossed);
+          toast.error(`⚠ ${crossed.name} needs immediate rest!`, { duration: 5000 });
         }
-        
+
         return updated;
       });
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [alertPlayer]);
+  }, []);
 
   const formatMatchTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -80,6 +105,10 @@ const Index = () => {
     toast.success(`${lowestPSIPlayer.name} substituted successfully!`);
     setAlertPlayer(null);
   };
+
+  const liveAlertPlayer = alertPlayer
+    ? players.find(p => p.id === alertPlayer.id) ?? alertPlayer
+    : null;
 
   const handlePlayerClick = (player: Player) => {
     toast.info(`${player.name} - PSI: ${player.psi}% | HR: ${player.heartRate} bpm`);
@@ -139,7 +168,7 @@ const Index = () => {
         </div>
       </div>
 
-      <SubstitutionAlert player={alertPlayer} onClose={() => setAlertPlayer(null)} />
+      <SubstitutionAlert player={liveAlertPlayer} onClose={() => setAlertPlayer(null)} />
     </div>
   );
 };
