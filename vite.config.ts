@@ -5,6 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // GitHub Pages serves this repo at /AILIVEGUARD/; local dev stays at root.
+  base: mode === "production" ? "/AILIVEGUARD/" : "/",
   server: {
     host: "::",
     port: 8080,
