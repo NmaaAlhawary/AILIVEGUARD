@@ -91,6 +91,14 @@ const Index = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const onField = players.filter(p => p.isOnField);
+  const squadCounts = {
+    fit: onField.filter(p => p.status === 'fit').length,
+    tired: onField.filter(p => p.status === 'tired').length,
+    risk: onField.filter(p => p.status === 'risk').length,
+  };
+  const matchProgress = Math.min(100, Math.max(0, ((matchTime - 75 * 60) / (15 * 60)) * 100));
+
   const formatMatchTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -153,21 +161,62 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
       <div className="max-w-[1800px] mx-auto">
-        <header className="mb-6 lg:mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-center md:text-left">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-status-fit mb-2">
-              AILiveGuard System
-            </h1>
-            <p className="text-muted-foreground text-sm md:text-base">
-              Real-time fatigue tracking and substitution recommendations
-            </p>
+        <header className="mb-6 lg:mb-8 border-b border-border pb-5">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div className="text-center md:text-left">
+              <div className="mb-2 flex items-center justify-center gap-3 md:justify-start">
+                <h1 className="text-3xl font-bold text-status-fit md:text-4xl lg:text-5xl">
+                  AILiveGuard System
+                </h1>
+                <span className="flex items-center gap-1.5 rounded-full border border-status-risk/40 bg-status-risk/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-status-risk">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-status-risk" />
+                  Live
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground md:text-base">
+                Real-time fatigue tracking and substitution recommendations
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4 rounded-lg border border-border bg-card px-5 py-3">
+              <div className="text-center">
+                <span className="text-xs text-muted-foreground">Match Time</span>
+                <div className="font-mono text-2xl font-bold leading-tight text-status-fit md:text-3xl">
+                  {formatMatchTime(matchTime)}
+                </div>
+              </div>
+              <div className="h-10 w-px bg-border" />
+              <div className="w-24">
+                <div className="flex justify-between text-[10px] font-semibold text-muted-foreground">
+                  <span>75'</span>
+                  <span>90'</span>
+                </div>
+                <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full rounded-full bg-status-fit transition-all duration-1000"
+                    style={{ width: `${matchProgress}%` }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="w-[140px]"></div>
-          <div className="flex flex-col items-center bg-card border border-border rounded-lg px-6 py-3">
-            <span className="text-xs text-muted-foreground mb-1">Match Time</span>
-            <span className="text-2xl md:text-3xl font-bold text-status-fit font-mono">
-              {formatMatchTime(matchTime)}
-            </span>
+
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 md:justify-start">
+            {[
+              { label: 'fit', count: squadCounts.fit, dot: 'bg-status-fit' },
+              { label: 'tiring', count: squadCounts.tired, dot: 'bg-status-tired' },
+              { label: 'at risk', count: squadCounts.risk, dot: 'bg-status-risk' },
+              { label: 'on the bench', count: substitutes.length, dot: 'bg-muted-foreground' },
+            ].map(item => (
+              <span
+                key={item.label}
+                className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs"
+              >
+                <span className={`h-2 w-2 rounded-full ${item.dot}`} />
+                <span className="font-bold">{item.count}</span>
+                <span className="text-muted-foreground">{item.label}</span>
+              </span>
+            ))}
           </div>
         </header>
 
