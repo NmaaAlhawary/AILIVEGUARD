@@ -54,7 +54,7 @@ const profiles: PlayerProfile[] = [
 
 const RISK_THRESHOLD = 40;
 const TICK_SECONDS = 3;
-const HISTORY_LIMIT = 40;
+const HISTORY_LIMIT = 320;
 
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
 

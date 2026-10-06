@@ -2,6 +2,7 @@ import { Player } from '@/types/player';
 import { getInitials } from '@/utils/playerPhotos';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dialog';
 import { cn } from '@/lib/utils';
+import { ReadinessTrend } from './ReadinessTrend';
 
 interface PlayerCardProps {
   player: Player | null;
@@ -19,17 +20,21 @@ export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
 
   const token = statusToken[player.status];
   const stats = [
-    { label: 'HRT', value: Math.round(player.heartRate) },
-    { label: 'SPD', value: Math.round(player.speed) },
-    { label: 'TOP', value: Math.round(player.rollingTopSpeed) },
-    { label: 'FTG', value: Math.round(player.fatigue) },
-    { label: 'REC', value: Math.round(player.recoveryRate) },
-    { label: 'RSK', value: player.minutesToRisk !== null ? `${player.minutesToRisk}m` : '--' },
+    { label: 'Heart rate', value: Math.round(player.heartRate), unit: 'bpm' },
+    { label: 'Speed now', value: Math.round(player.speed), unit: 'km/h' },
+    { label: 'Top speed', value: Math.round(player.rollingTopSpeed), unit: 'km/h' },
+    { label: 'Fatigue', value: Math.round(player.fatigue), unit: '%' },
+    { label: 'Recovery', value: Math.round(player.recoveryRate), unit: 'bpm/min' },
+    {
+      label: 'Risk in',
+      value: player.minutesToRisk !== null ? player.minutesToRisk : '—',
+      unit: player.minutesToRisk !== null ? 'min' : '',
+    },
   ];
 
   return (
     <Dialog open={!!player} onOpenChange={open => !open && onClose()}>
-      <DialogContent className="max-w-sm border-none bg-transparent p-0 shadow-none">
+      <DialogContent className="max-w-md border-none bg-transparent p-0 shadow-none">
         <div
           className="relative overflow-hidden rounded-3xl p-6 text-white"
           style={{
@@ -73,22 +78,33 @@ export const PlayerCard = ({ player, onClose }: PlayerCardProps) => {
             </DialogDescription>
           </div>
 
-          <div className="mt-3 grid grid-cols-3 gap-y-3">
+          <div className="mt-3 grid grid-cols-3 gap-2">
             {stats.map(stat => (
-              <div key={stat.label} className="text-center">
-                <div className="text-lg font-black leading-none">{stat.value}</div>
-                <div className="text-[10px] font-bold tracking-widest opacity-75">{stat.label}</div>
+              <div key={stat.label} className="rounded-lg bg-black/25 px-1 py-2 text-center">
+                <div className="text-xl font-black leading-none">
+                  {stat.value}
+                  {stat.unit && (
+                    <span className="ml-0.5 text-[10px] font-bold opacity-75">{stat.unit}</span>
+                  )}
+                </div>
+                <div className="mt-1 text-[10px] font-semibold leading-none opacity-80">
+                  {stat.label}
+                </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-3">
+            <ReadinessTrend history={player.history} status={player.status} />
           </div>
 
           {player.reasons.length > 0 && (
             <div className="mt-4 space-y-1 rounded-xl bg-black/35 p-3">
               <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">
-                Fatigue signals
+                Why this reading
               </p>
               {player.reasons.slice(0, 3).map(reason => (
-                <p key={reason.label} className="text-xs leading-snug">
+                <p key={reason.label} className="text-sm leading-snug">
                   <span className="font-bold">{reason.label}</span>{' '}
                   <span className="opacity-85">{reason.detail}</span>
                 </p>

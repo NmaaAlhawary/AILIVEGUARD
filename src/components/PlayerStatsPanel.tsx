@@ -1,5 +1,7 @@
 import { Player } from '@/types/player';
-import { TrendingDown } from 'lucide-react';
+import { Activity, Zap, AlertTriangle, TrendingDown } from 'lucide-react';
+import { Card } from './ui/card';
+import { Progress } from './ui/progress';
 import { cn } from '@/lib/utils';
 import { getInitials } from '@/utils/playerPhotos';
 
@@ -7,115 +9,107 @@ interface PlayerStatsPanelProps {
   players: Player[];
 }
 
-const accent = {
-  fit: { text: 'text-status-fit', bar: 'bg-status-fit', ring: 'ring-status-fit/70' },
-  tired: { text: 'text-status-tired', bar: 'bg-status-tired', ring: 'ring-status-tired/70' },
-  risk: { text: 'text-status-risk', bar: 'bg-status-risk', ring: 'ring-status-risk/80' },
-};
-
-const statusLabel = { fit: 'Fit', tired: 'Tiring', risk: 'At risk' };
-
 export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
   const activePlayers = players.filter(p => p.isOnField);
 
   return (
-    <section className="space-y-3">
-      <header className="flex items-baseline justify-between">
-        <h2 className="panel-heading">Active Players</h2>
-        <span className="text-[11px] font-semibold text-muted-foreground tabular">
-          {activePlayers.length} on pitch
-        </span>
-      </header>
-
-      <div className="max-h-[calc(100vh-11rem)] space-y-2 overflow-y-auto pr-1">
-        {activePlayers.map(player => {
-          const tone = accent[player.status];
-
-          return (
-            <article
-              key={player.id}
-              className={cn(
-                'rounded-xl border border-border/70 bg-card/80 p-3 transition-colors',
-                player.status === 'risk' && 'border-status-risk/60 bg-status-risk/5'
-              )}
-              style={{ boxShadow: 'var(--shadow-card)' }}
-            >
-              <div className="flex items-center gap-2.5">
-                <div
-                  className={cn(
-                    'flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted ring-2',
-                    tone.ring
-                  )}
-                >
-                  {player.photo ? (
-                    <img src={player.photo} alt="" className="h-full w-full object-cover" />
-                  ) : (
-                    <span className="text-[11px] font-black text-muted-foreground">
-                      {getInitials(player.name)}
-                    </span>
-                  )}
-                </div>
-
-                <div className="min-w-0 flex-1">
-                  <h3 className="truncate text-sm font-bold leading-tight">{player.name}</h3>
-                  <div className="mt-0.5 flex items-center gap-1.5">
-                    <span className="rounded bg-muted px-1.5 py-px text-[10px] font-bold text-muted-foreground">
-                      {player.role}
-                    </span>
-                    <span className={cn('text-[10px] font-semibold', tone.text)}>
-                      {statusLabel[player.status]}
-                    </span>
+    <div className="space-y-3">
+      <h2 className="text-xl font-bold text-foreground mb-4">Active Players</h2>
+      <div className="space-y-2 max-h-[calc(100vh-12rem)] overflow-y-auto pr-2">
+        {activePlayers.map((player) => (
+          <Card
+            key={player.id}
+            className={cn(
+              "p-3 transition-all duration-300 hover:scale-[1.02]",
+              player.status === 'risk' && "border-destructive border-2 animate-pulse"
+            )}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                {player.photo ? (
+                  <img
+                    src={player.photo}
+                    alt={player.name}
+                    className="w-9 h-9 rounded-full object-cover border border-border"
+                  />
+                ) : (
+                  <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-muted-foreground">
+                    {getInitials(player.name)}
                   </div>
-                </div>
-
-                <div className="text-right">
-                  <div className={cn('text-2xl font-black leading-none tabular', tone.text)}>
-                    {Math.round(player.psi)}
-                    <span className="text-xs font-bold opacity-70">%</span>
-                  </div>
-                  {player.minutesToRisk !== null &&
-                    player.minutesToRisk <= 10 &&
-                    player.status !== 'risk' && (
-                      <div className="mt-1 flex items-center justify-end gap-0.5 text-[10px] font-semibold text-status-tired">
-                        <TrendingDown className="h-3 w-3" />
-                        <span className="tabular">{player.minutesToRisk} min</span>
-                      </div>
-                    )}
+                )}
+                <div>
+                  <h3 className="font-bold text-sm">{player.name}</h3>
+                  <p className="text-xs text-muted-foreground">{player.role} · #{player.id}</p>
                 </div>
               </div>
+              <div className="text-right">
+                <div className={cn(
+                  "text-2xl font-bold leading-none",
+                  player.status === 'fit' && "text-status-fit",
+                  player.status === 'tired' && "text-status-tired",
+                  player.status === 'risk' && "text-status-risk"
+                )}>
+                  {Math.round(player.psi)}%
+                </div>
+                {player.minutesToRisk !== null && player.minutesToRisk <= 10 && player.status !== 'risk' && (
+                  <div className="flex items-center justify-end gap-1 text-[10px] text-status-tired mt-1">
+                    <TrendingDown className="w-3 h-3" />
+                    <span>risk in ~{player.minutesToRisk} min</span>
+                  </div>
+                )}
+              </div>
+            </div>
 
-              <div className="mt-2.5 h-1 overflow-hidden rounded-full bg-muted">
-                <div
-                  className={cn('h-full rounded-full transition-all duration-700', tone.bar)}
-                  style={{ width: `${Math.max(2, player.psi)}%` }}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="flex items-center gap-1">
+                  <Activity className="w-3 h-3" />
+                  Heart Rate
+                </span>
+                <span className="font-semibold">{Math.round(player.heartRate)} bpm</span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs">
+                <span className="flex items-center gap-1">
+                  <Zap className="w-3 h-3" />
+                  Speed
+                </span>
+                <span className="font-semibold">{Math.round(player.speed)} km/h</span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs">
+                <span className="flex items-center gap-1">
+                  <AlertTriangle className="w-3 h-3" />
+                  Fatigue
+                </span>
+                <span className="font-semibold">{Math.round(player.fatigue)}%</span>
+              </div>
+
+              <div className="mt-2">
+                <Progress 
+                  value={player.psi} 
+                  className={cn(
+                    "h-2",
+                    player.status === 'fit' && "[&>div]:bg-status-fit",
+                    player.status === 'tired' && "[&>div]:bg-status-tired",
+                    player.status === 'risk' && "[&>div]:bg-status-risk"
+                  )}
                 />
               </div>
 
-              <dl className="mt-2.5 grid grid-cols-3 gap-1 text-center">
-                {[
-                  { label: 'bpm', value: Math.round(player.heartRate) },
-                  { label: 'km/h', value: Math.round(player.speed) },
-                  { label: 'fatigue', value: `${Math.round(player.fatigue)}%` },
-                ].map(stat => (
-                  <div key={stat.label} className="rounded-lg bg-muted/40 py-1">
-                    <dd className="text-sm font-bold leading-none tabular">{stat.value}</dd>
-                    <dt className="mt-0.5 text-[9px] uppercase tracking-wider text-muted-foreground">
-                      {stat.label}
-                    </dt>
-                  </div>
-                ))}
-              </dl>
-
               {player.status !== 'fit' && player.reasons.length > 0 && (
-                <p className="mt-2 text-[11px] leading-snug text-muted-foreground">
-                  <span className="font-semibold text-foreground">{player.reasons[0].label}</span>{' '}
-                  {player.reasons[0].detail}
-                </p>
+                <div className="mt-2 pt-2 border-t border-border/50 space-y-0.5">
+                  {player.reasons.slice(0, 2).map((reason) => (
+                    <p key={reason.label} className="text-[11px] text-muted-foreground leading-snug">
+                      <span className="font-semibold text-foreground">{reason.label}</span> {reason.detail}
+                    </p>
+                  ))}
+                </div>
               )}
-            </article>
-          );
-        })}
+            </div>
+          </Card>
+        ))}
       </div>
-    </section>
+    </div>
   );
 };

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Home, Save, Upload, X } from 'lucide-react';
+import { Home, Save, Upload, X, Plus, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -108,6 +108,27 @@ const ManagePlayers = () => {
     }
   };
 
+  const addSubstitute = () => {
+    setSubstituteNames(prev => [...prev, '']);
+  };
+
+  // Removing a row shifts every later row down, so the photos must shift too
+  // or they end up attached to the wrong player.
+  const removeSubstitute = (index: number) => {
+    setSubstituteNames(prev => prev.filter((_, i) => i !== index));
+    setSubstitutePhotos(prev => {
+      const next: PhotoMap = {};
+      Object.keys(prev)
+        .map(Number)
+        .sort((a, b) => a - b)
+        .forEach(key => {
+          if (key === index) return;
+          next[key > index ? key - 1 : key] = prev[key];
+        });
+      return next;
+    });
+  };
+
   const removePhoto = (index: number, setPhotos: (updater: (prev: PhotoMap) => PhotoMap) => void) => {
     setPhotos(prev => {
       const next = { ...prev };
@@ -129,16 +150,26 @@ const ManagePlayers = () => {
   };
 
   const handleSave = () => {
+    const namedSubs = substituteNames
+      .map((name, index) => ({ name: name.trim(), photo: substitutePhotos[index] }))
+      .filter(sub => sub.name);
+
+    const subPhotos: PhotoMap = {};
+    namedSubs.forEach((sub, index) => {
+      if (sub.photo) subPhotos[index] = sub.photo;
+    });
+
     try {
       localStorage.setItem('playerNames', JSON.stringify(playerNames));
-      localStorage.setItem('substituteNames', JSON.stringify(substituteNames));
+      localStorage.setItem('substituteNames', JSON.stringify(namedSubs.map(sub => sub.name)));
       savePhotos(FIELD_PHOTOS_KEY, playerPhotos);
-      savePhotos(SUB_PHOTOS_KEY, substitutePhotos);
+      savePhotos(SUB_PHOTOS_KEY, subPhotos);
     } catch {
       toast.error('Not enough browser storage for these photos. Try removing a few.');
       return;
     }
-    toast.success('Players saved successfully!');
+
+    toast.success(`Saved 11 players and ${namedSubs.length} substitutes`);
     navigate('/');
   };
 
@@ -176,7 +207,7 @@ const ManagePlayers = () => {
           <Card>
             <CardHeader>
               <CardTitle>Field Players (11)</CardTitle>
-              <CardDescription>Main team players on the field</CardDescription>
+              <CardDescription>Eleven on the pitch, as the rules require</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {playerNames.map((name, index) => (
@@ -204,8 +235,8 @@ const ManagePlayers = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Substitutes (4)</CardTitle>
-              <CardDescription>Bench players ready to substitute</CardDescription>
+              <CardTitle>Substitutes ({substituteNames.length})</CardTitle>
+              <CardDescription>Add or remove bench players</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {substituteNames.map((name, index) => (
@@ -224,10 +255,31 @@ const ManagePlayers = () => {
                       value={name}
                       onChange={(e) => handleSubNameChange(index, e.target.value)}
                       placeholder={`Substitute ${index + 1} name`}
+                      autoFocus={name === '' && index === substituteNames.length - 1}
                     />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeSubstitute(index)}
+                      aria-label={`Remove substitute ${index + 1}`}
+                      className="shrink-0 text-muted-foreground hover:text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
               ))}
+
+              {substituteNames.length === 0 && (
+                <p className="py-4 text-center text-sm text-muted-foreground">
+                  No substitutes on the bench yet.
+                </p>
+              )}
+
+              <Button variant="outline" onClick={addSubstitute} className="w-full gap-2">
+                <Plus className="h-4 w-4" />
+                Add Substitute
+              </Button>
             </CardContent>
           </Card>
         </div>
