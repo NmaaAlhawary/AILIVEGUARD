@@ -17,6 +17,9 @@ const defaultPhotoFiles: Record<string, string> = {
   'joao felix': 'joao-felix',
   yamal: 'yamal',
   'ansu fati': 'ansu-fati',
+  'lionel messi': 'lionel-messi',
+  rolando: 'rolando',
+  casias: 'casias',
 };
 
 // Match on the name with accents and punctuation removed, so "Araújo" and

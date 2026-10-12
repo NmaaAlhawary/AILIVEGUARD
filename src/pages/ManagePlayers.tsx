@@ -24,7 +24,7 @@ const defaultPlayers = [
   'Raphinha', 'Lewandowski', 'Ferran Torres'
 ];
 
-const defaultSubstitutes = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati'];
+const defaultSubstitutes = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati', 'Lionel Messi', 'Rolando', 'casias'];
 
 interface PhotoPickerProps {
   id: string;

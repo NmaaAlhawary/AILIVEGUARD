@@ -35,12 +35,12 @@ export const PlayerDot = ({ player, onClick }: PlayerDotProps) => {
       onClick={onClick}
     >
       {/* Progress bar above player */}
-      <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 bg-black/60 rounded-full p-1">
+      <div className="absolute -top-7 sm:-top-8 left-1/2 -translate-x-1/2 w-11 sm:w-16 bg-black/60 rounded-full p-0.5 sm:p-1">
         <Progress 
           value={player.psi} 
-          className={cn('h-2', progressColors[player.status])}
+          className={cn('h-1.5 sm:h-2', progressColors[player.status])}
         />
-        <div className="text-[10px] text-white text-center font-semibold mt-0.5">
+        <div className="text-[9px] sm:text-[10px] text-white text-center font-semibold mt-0.5 leading-none sm:leading-normal">
           {Math.round(player.psi)}%
         </div>
         {player.minutesToRisk !== null && player.minutesToRisk <= 10 && player.status !== 'risk' && (
@@ -52,7 +52,7 @@ export const PlayerDot = ({ player, onClick }: PlayerDotProps) => {
 
       <div
         className={cn(
-          'w-10 h-10 rounded-full border-2 border-white flex items-center justify-center overflow-hidden transition-all duration-1000',
+          'w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white flex items-center justify-center overflow-hidden transition-all duration-1000',
           statusColors[player.status]
         )}
       >
@@ -61,10 +61,10 @@ export const PlayerDot = ({ player, onClick }: PlayerDotProps) => {
         ) : player.name ? (
           <span className="text-[11px] font-black text-white">{getInitials(player.name)}</span>
         ) : (
-          <User className="w-6 h-6 text-white" />
+          <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         )}
       </div>
-      <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-xs font-bold text-white whitespace-nowrap bg-black/70 px-2 py-0.5 rounded">
+      <div className="absolute -bottom-4 sm:-bottom-5 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs font-bold text-white whitespace-nowrap bg-black/70 px-1.5 sm:px-2 py-0.5 rounded">
         {player.id}
       </div>
       <div className="absolute top-full left-1/2 -translate-x-1/2 mt-6 text-xs font-semibold text-white whitespace-nowrap bg-black/80 px-2 py-1 rounded opacity-0 hover:opacity-100 transition-opacity z-10">

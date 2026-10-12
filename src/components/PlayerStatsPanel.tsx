@@ -14,8 +14,8 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
 
   return (
     <div className="space-y-3">
-      <h2 className="text-xl font-bold text-foreground mb-4">Active Players</h2>
-      <div className="space-y-2 max-h-[calc(100vh-12rem)] overflow-y-auto pr-2">
+      <h2 className="text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4">Active Players</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2 lg:max-h-[calc(100vh-12rem)] lg:overflow-y-auto lg:pr-2">
         {activePlayers.map((player) => (
           <Card
             key={player.id}

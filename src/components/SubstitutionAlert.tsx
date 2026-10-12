@@ -25,8 +25,8 @@ export const SubstitutionAlert = ({
   if (!player || player.psi >= 40) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <Card className="max-h-[92vh] w-full max-w-md overflow-y-auto border-2 border-destructive p-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 sm:p-4">
+      <Card className="max-h-[92dvh] w-full max-w-md overflow-y-auto border-2 border-destructive p-4 sm:p-5">
         <header className="mb-4 flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-destructive/20">

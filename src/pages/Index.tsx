@@ -11,7 +11,7 @@ import { getDefaultPhoto } from '@/utils/defaultPhotos';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-const defaultSubNames = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati'];
+const defaultSubNames = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati', 'Lionel Messi', 'Rolando', 'casias'];
 
 const Index = () => {
   const navigate = useNavigate();
@@ -159,13 +159,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen bg-background px-3 py-4 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-[1800px] mx-auto">
-        <header className="mb-6 lg:mb-8 border-b border-border pb-5">
+        <header className="mb-5 lg:mb-8 border-b border-border pb-4 sm:pb-5">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="text-center md:text-left">
               <div className="mb-2 flex items-center justify-center gap-3 md:justify-start">
-                <h1 className="text-3xl font-bold text-status-fit md:text-4xl lg:text-5xl">
+                <h1 className="text-2xl font-bold text-status-fit sm:text-3xl md:text-4xl lg:text-5xl">
                   AILiveGuard System
                 </h1>
                 <span className="flex items-center gap-1.5 rounded-full border border-status-risk/40 bg-status-risk/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-status-risk">
@@ -173,12 +173,12 @@ const Index = () => {
                   Live
                 </span>
               </div>
-              <p className="text-sm text-muted-foreground md:text-base">
+              <p className="text-xs text-muted-foreground sm:text-sm md:text-base">
                 Real-time fatigue tracking and substitution recommendations
               </p>
             </div>
 
-            <div className="flex items-center gap-4 rounded-lg border border-border bg-card px-5 py-3">
+            <div className="flex w-full items-center justify-center gap-4 rounded-lg border border-border bg-card px-4 py-2.5 sm:w-auto sm:px-5 sm:py-3">
               <div className="text-center">
                 <span className="text-xs text-muted-foreground">Match Time</span>
                 <div className="font-mono text-2xl font-bold leading-tight text-status-fit md:text-3xl">
@@ -186,7 +186,7 @@ const Index = () => {
                 </div>
               </div>
               <div className="h-10 w-px bg-border" />
-              <div className="w-24">
+              <div className="w-full max-w-[10rem] sm:w-24">
                 <div className="flex justify-between text-[10px] font-semibold text-muted-foreground">
                   <span>75'</span>
                   <span>90'</span>
@@ -201,7 +201,7 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 md:justify-start">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 sm:mt-4 sm:gap-2 md:justify-start">
             {[
               { label: 'fit', count: squadCounts.fit, dot: 'bg-status-fit' },
               { label: 'tiring', count: squadCounts.tired, dot: 'bg-status-tired' },
@@ -210,7 +210,7 @@ const Index = () => {
             ].map(item => (
               <span
                 key={item.label}
-                className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs"
+                className="flex items-center gap-2 rounded-full border border-border bg-card px-2.5 py-1 text-[11px] sm:px-3 sm:py-1.5 sm:text-xs"
               >
                 <span className={`h-2 w-2 rounded-full ${item.dot}`} />
                 <span className="font-bold">{item.count}</span>
@@ -220,7 +220,7 @@ const Index = () => {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8">
           {/* Left Panel - Stats */}
           <div className="lg:col-span-3 order-2 lg:order-1">
             <PlayerStatsPanel players={players} />
@@ -230,17 +230,17 @@ const Index = () => {
           <div className="lg:col-span-6 order-1 lg:order-2">
             <FootballPitch players={players} onPlayerClick={handlePlayerClick} />
             
-            <div className="mt-4 lg:mt-6 flex items-center justify-center gap-4 md:gap-6 text-xs md:text-sm">
+            <div className="mt-3 lg:mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:gap-6 text-[11px] sm:text-xs md:text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-status-fit" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-status-fit" />
                 <span>Fit (60-100%)</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-status-tired" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-status-tired" />
                 <span>Tired (40-59%)</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-status-risk" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-status-risk" />
                 <span>Risk (&lt;40%)</span>
               </div>
             </div>

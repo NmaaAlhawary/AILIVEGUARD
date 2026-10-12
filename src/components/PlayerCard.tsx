@@ -47,9 +47,9 @@ export const PlayerCard = ({
 
   return (
     <Dialog open={!!player} onOpenChange={open => !open && onClose()}>
-      <DialogContent className="max-h-[92vh] max-w-md overflow-y-auto border-none bg-transparent p-0 shadow-none">
+      <DialogContent className="max-h-[92dvh] w-[calc(100%-1.5rem)] max-w-md overflow-y-auto rounded-3xl border-none bg-transparent p-0 shadow-none">
         <div
-          className="relative overflow-hidden rounded-3xl p-6 text-white"
+          className="relative overflow-hidden rounded-3xl p-4 text-white sm:p-6"
           style={{
             backgroundColor: 'hsl(222 47% 7%)',
             backgroundImage: `linear-gradient(160deg, hsl(var(${token}) / 0.85) 0%, hsl(var(${token}) / 0.4) 40%, transparent 72%)`,
@@ -57,7 +57,7 @@ export const PlayerCard = ({
         >
           <div className="flex gap-4">
             <div className="flex flex-col items-center pt-1">
-              <span className="text-6xl font-black leading-none drop-shadow">
+              <span className="text-5xl font-black leading-none drop-shadow sm:text-6xl">
                 {Math.round(player.psi)}
               </span>
               <span className="mt-1 text-base font-bold tracking-widest opacity-90">
@@ -72,10 +72,10 @@ export const PlayerCard = ({
                 <img
                   src={player.photo}
                   alt={player.name}
-                  className="h-32 w-32 rounded-full border-4 border-white/70 object-cover shadow-xl"
+                  className="h-24 w-24 rounded-full border-4 border-white/70 sm:h-32 sm:w-32 object-cover shadow-xl"
                 />
               ) : (
-                <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-white/50 bg-black/30 text-4xl font-black shadow-xl">
+                <div className="flex h-24 w-24 items-center sm:h-32 sm:w-32 justify-center rounded-full border-4 border-white/50 bg-black/30 text-4xl font-black shadow-xl">
                   {getInitials(player.name)}
                 </div>
               )}
@@ -83,7 +83,7 @@ export const PlayerCard = ({
           </div>
 
           <div className="mt-4 border-y border-white/30 py-2 text-center">
-            <DialogTitle className="text-2xl font-black uppercase tracking-wide">
+            <DialogTitle className="text-xl font-black uppercase tracking-wide sm:text-2xl">
               {player.name}
             </DialogTitle>
             <DialogDescription className="sr-only">
@@ -95,7 +95,7 @@ export const PlayerCard = ({
           <div className="mt-3 grid grid-cols-3 gap-2">
             {stats.map(stat => (
               <div key={stat.label} className="rounded-lg bg-black/25 px-1 py-2 text-center">
-                <div className="text-2xl font-black leading-none">
+                <div className="text-xl font-black leading-none sm:text-2xl">
                   {stat.value}
                   {stat.unit && (
                     <span className="ml-1 text-xs font-bold opacity-80">{stat.unit}</span>
