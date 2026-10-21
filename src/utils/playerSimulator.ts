@@ -5,9 +5,9 @@ import { getDefaultPhoto } from '@/utils/defaultPhotos';
 const roles = ['GK', 'LB', 'CB', 'CB', 'RB', 'CM', 'CM', 'CM', 'LW', 'ST', 'RW'];
 
 const defaultPlayerNames = [
-  'Ter Stegen', 'Araujo', 'Christensen', 'Kounde',
-  'Balde', 'De Jong', 'Gavi', 'Pedri',
-  'Raphinha', 'Lewandowski', 'Ferran Torres'
+  'casias', 'Araujo', 'Christensen', 'Kounde',
+  'Balde', 'De Jong', 'Gavi', 'Lionel Messi',
+  'Ansu Fati', 'Rolando', 'Yamal'
 ];
 
 const getPlayerNames = (): string[] => {

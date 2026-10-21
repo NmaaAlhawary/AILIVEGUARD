@@ -6,12 +6,13 @@ import { PlayerStatsPanel } from '@/components/PlayerStatsPanel';
 import { SubstitutionAlert } from '@/components/SubstitutionAlert';
 import { BenchPanel } from '@/components/BenchPanel';
 import { PlayerCard } from '@/components/PlayerCard';
+import { OutgoingPicker } from '@/components/OutgoingPicker';
 import { SUB_PHOTOS_KEY, loadPhotos } from '@/utils/playerPhotos';
 import { getDefaultPhoto } from '@/utils/defaultPhotos';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-const defaultSubNames = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati', 'Lionel Messi', 'Rolando', 'casias'];
+const defaultSubNames = ['Ter Stegen', 'Inaki Pena', 'Pedri', 'Fermin Lopez', 'Raphinha', 'Lewandowski', 'Ferran Torres', 'Joao Felix'];
 
 const Index = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Index = () => {
   const [substitutes, setSubstitutes] = useState<SubstitutePlayer[]>([]);
   const [matchTime, setMatchTime] = useState(75 * 60); // Start at 75 minutes
   const [cardPlayer, setCardPlayer] = useState<Player | null>(null);
+  const [benchPick, setBenchPick] = useState<SubstitutePlayer | null>(null);
   const alertedRef = useRef<Set<number>>(new Set());
   const forecastWarnedRef = useRef<Set<number>>(new Set());
 
@@ -144,6 +146,7 @@ const Index = () => {
     toast.success(`${incoming.name} on for ${outgoing.name}`);
     setAlertPlayer(null);
     setCardPlayer(null);
+    setBenchPick(null);
   };
 
   const liveCardPlayer = cardPlayer
@@ -248,7 +251,11 @@ const Index = () => {
 
           {/* Right Panel - Bench */}
           <div className="lg:col-span-3 order-3">
-            <BenchPanel substitutes={substitutes} onSubstitute={handleSubstitute} onManagePlayers={() => navigate('/manage')} />
+            <BenchPanel
+              substitutes={substitutes}
+              onSubstitute={subId => setBenchPick(substitutes.find(s => s.id === subId) ?? null)}
+              onManagePlayers={() => navigate('/manage')}
+            />
           </div>
         </div>
       </div>
@@ -258,6 +265,12 @@ const Index = () => {
         substitutes={substitutes}
         onSubstitute={handleSubstitute}
         onClose={() => setCardPlayer(null)}
+      />
+      <OutgoingPicker
+        incoming={benchPick}
+        players={players}
+        onPick={handleSubstitute}
+        onClose={() => setBenchPick(null)}
       />
       <SubstitutionAlert
         player={liveAlertPlayer}
