@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Player, SubstitutePlayer } from '@/types/player';
 import { getInitials } from '@/utils/playerPhotos';
-import { ArrowRightLeft } from 'lucide-react';
+import { ArrowRightLeft, Gauge, HeartPulse, Timer, LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dialog';
 import { cn } from '@/lib/utils';
 import { ReadinessTrend } from './ReadinessTrend';
@@ -14,6 +14,26 @@ interface PlayerCardProps {
   onSubstitute: (subId: number, playerId: number) => void;
   onClose: () => void;
 }
+
+const reasonIcon: Record<string, LucideIcon> = {
+  'Sprint speed': Gauge,
+  'Heart rate': HeartPulse,
+  Recovery: Timer,
+};
+
+const reasonWeight: Record<string, number> = {
+  'Sprint speed': 0.35,
+  'Heart rate': 0.35,
+  Recovery: 0.3,
+};
+
+// How hard this signal is pulling readiness down, 0–1, as a word and a colour.
+const reasonLevel = (label: string, severity: number) => {
+  const strain = Math.min(1, severity / (reasonWeight[label] ?? 0.33));
+  if (strain >= 0.66) return { strain, word: 'High', token: '--status-risk' };
+  if (strain >= 0.33) return { strain, word: 'Moderate', token: '--status-tired' };
+  return { strain, word: 'Mild', token: '--status-fit' };
+};
 
 const statusToken = {
   fit: '--status-fit',
@@ -113,16 +133,42 @@ export const PlayerCard = ({
           </div>
 
           {player.reasons.length > 0 && (
-            <div className="mt-4 space-y-1.5 rounded-xl bg-black/45 p-4">
-              <p className="text-xs font-bold uppercase tracking-widest opacity-80">
+            <div className="mt-3 rounded-xl bg-black/45 p-4">
+              <p className="mb-3 text-xs font-bold uppercase tracking-widest opacity-80">
                 Why this reading
               </p>
-              {player.reasons.slice(0, 3).map(reason => (
-                <p key={reason.label} className="text-base leading-snug">
-                  <span className="font-bold">{reason.label}</span>{' '}
-                  <span className="opacity-85">{reason.detail}</span>
-                </p>
-              ))}
+              <ul className="space-y-3">
+                {player.reasons.slice(0, 3).map(reason => {
+                  const Icon = reasonIcon[reason.label] ?? Gauge;
+                  const level = reasonLevel(reason.label, reason.severity);
+                  const color = `hsl(var(${level.token}))`;
+                  return (
+                    <li key={reason.label} className="flex items-center gap-3">
+                      <span
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+                        style={{ backgroundColor: `hsl(var(${level.token}) / 0.18)`, color }}
+                      >
+                        <Icon className="h-[18px] w-[18px]" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-baseline justify-between gap-2">
+                          <span className="text-sm font-bold">{reason.label}</span>
+                          <span className="text-[11px] font-semibold uppercase tracking-wide opacity-75">
+                            {level.word}
+                          </span>
+                        </div>
+                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
+                          <div
+                            className="h-full rounded-full transition-all duration-700"
+                            style={{ width: `${Math.max(6, level.strain * 100)}%`, backgroundColor: color }}
+                          />
+                        </div>
+                        <p className="mt-1 text-xs opacity-75">{reason.detail}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           )}
 

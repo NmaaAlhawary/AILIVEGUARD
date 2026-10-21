@@ -19,12 +19,12 @@ import {
 import { getDefaultPhoto } from '@/utils/defaultPhotos';
 
 const defaultPlayers = [
-  'Ter Stegen', 'Araujo', 'Christensen', 'Kounde',
-  'Balde', 'De Jong', 'Gavi', 'Pedri',
-  'Raphinha', 'Lewandowski', 'Ferran Torres'
+  'casias', 'Araujo', 'Christensen', 'Kounde',
+  'Balde', 'De Jong', 'Gavi', 'Lionel Messi',
+  'Ansu Fati', 'Rolando', 'Yamal'
 ];
 
-const defaultSubstitutes = ['Inaki Pena', 'Fermin Lopez', 'Joao Felix', 'Yamal', 'Ansu Fati', 'Lionel Messi', 'Rolando', 'casias'];
+const defaultSubstitutes = ['Ter Stegen', 'Inaki Pena', 'Pedri', 'Fermin Lopez', 'Raphinha', 'Lewandowski', 'Ferran Torres', 'Joao Felix'];
 
 interface PhotoPickerProps {
   id: string;
