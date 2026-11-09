@@ -233,18 +233,30 @@ const Index = () => {
           <div className="lg:col-span-6 order-1 lg:order-2">
             <FootballPitch players={players} onPlayerClick={handlePlayerClick} />
             
-            <div className="mt-3 lg:mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:gap-6 text-[11px] sm:text-xs md:text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-status-fit" />
-                <span>Fit (60-100%)</span>
+            {/* Readiness scale: each band is as wide as the range it covers. */}
+            <div className="mx-auto mt-3 w-full max-w-md rounded-xl border border-white/5 bg-card/60 px-4 py-3 lg:mt-6">
+              <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                <span>Readiness</span>
+                <span>0 – 100%</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-status-tired" />
-                <span>Tired (40-59%)</span>
+              <div className="flex h-2 gap-0.5 overflow-hidden rounded-full">
+                <div className="w-[40%] bg-status-risk" />
+                <div className="w-[20%] bg-status-tired" />
+                <div className="w-[40%] bg-status-fit" />
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-status-risk" />
-                <span>Risk (&lt;40%)</span>
+              <div className="mt-2 flex text-[11px] leading-tight sm:text-xs">
+                <div className="w-[40%]">
+                  <span className="font-bold text-status-risk">Risk</span>
+                  <span className="block text-muted-foreground">under 40%</span>
+                </div>
+                <div className="w-[20%] text-center">
+                  <span className="font-bold text-status-tired">Tired</span>
+                  <span className="block text-muted-foreground">40–59%</span>
+                </div>
+                <div className="w-[40%] text-right">
+                  <span className="font-bold text-status-fit">Fit</span>
+                  <span className="block text-muted-foreground">60–100%</span>
+                </div>
               </div>
             </div>
           </div>

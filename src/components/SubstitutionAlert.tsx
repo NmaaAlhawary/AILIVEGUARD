@@ -97,6 +97,7 @@ export const SubstitutionAlert = ({
             <SubstitutePicker
               substitutes={substitutes}
               outgoingName={player.name}
+              outgoingRole={player.role}
               onPick={subId => onSubstitute(subId, player.id)}
             />
             <Button variant="ghost" onClick={() => setPicking(false)} className="mt-2 w-full">
