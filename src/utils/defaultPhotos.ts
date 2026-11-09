@@ -24,7 +24,7 @@ const defaultPhotoFiles: Record<string, string> = {
 
 // Match on the name with accents and punctuation removed, so "Araújo" and
 // "Araujo" both find the same portrait.
-const normalise = (name: string) =>
+export const normalise = (name: string) =>
   name
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
