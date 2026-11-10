@@ -19,9 +19,10 @@ export const PlayerDot = ({ player, onClick }: PlayerDotProps) => {
   };
 
   const progressColors = {
-    fit: '[&>div]:bg-status-fit',
-    tired: '[&>div]:bg-status-tired',
-    risk: '[&>div]:bg-status-risk',
+    // Track and fill share the status colour, so the whole bar reads as one colour.
+    fit: 'bg-[hsl(var(--status-fit)/0.25)] [&>div]:bg-status-fit',
+    tired: 'bg-[hsl(var(--status-tired)/0.25)] [&>div]:bg-status-tired',
+    risk: 'bg-[hsl(var(--status-risk)/0.25)] [&>div]:bg-status-risk',
   };
 
   return (
