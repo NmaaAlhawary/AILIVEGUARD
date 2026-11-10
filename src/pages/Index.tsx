@@ -7,6 +7,7 @@ import { SubstitutionAlert } from '@/components/SubstitutionAlert';
 import { BenchPanel } from '@/components/BenchPanel';
 import { PlayerCard } from '@/components/PlayerCard';
 import { OutgoingPicker } from '@/components/OutgoingPicker';
+import { FatigueToast } from '@/components/FatigueToast';
 import { SUB_PHOTOS_KEY, loadPhotos } from '@/utils/playerPhotos';
 import { getDefaultPhoto } from '@/utils/defaultPhotos';
 import { useNavigate } from 'react-router-dom';
@@ -65,13 +66,11 @@ const Index = () => {
 
           if (approaching && !forecastWarnedRef.current.has(player.id)) {
             forecastWarnedRef.current.add(player.id);
-            const [topReason] = player.reasons;
-            toast.warning(
-              `${player.name}: fatigue rising — high risk in about ${player.minutesToRisk} minutes`,
-              {
-                description: topReason ? `${topReason.label} ${topReason.detail}` : undefined,
-                duration: 6000,
-              }
+            toast.custom(
+              id => (
+                <FatigueToast player={player} tone="warning" onDismiss={() => toast.dismiss(id)} />
+              ),
+              { duration: 6000 }
             );
           }
         });
@@ -83,7 +82,10 @@ const Index = () => {
         if (crossed) {
           alertedRef.current.add(crossed.id);
           setAlertPlayer(crossed);
-          toast.error(`⚠ ${crossed.name} needs immediate rest!`, { duration: 5000 });
+          toast.custom(
+            id => <FatigueToast player={crossed} tone="risk" onDismiss={() => toast.dismiss(id)} />,
+            { duration: 5000 }
+          );
         }
 
         return updated;

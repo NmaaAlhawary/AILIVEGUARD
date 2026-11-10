@@ -90,9 +90,9 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
                   value={player.psi} 
                   className={cn(
                     "h-2",
-                    player.status === 'fit' && "[&>div]:bg-status-fit",
-                    player.status === 'tired' && "[&>div]:bg-status-tired",
-                    player.status === 'risk' && "[&>div]:bg-status-risk"
+                    player.status === 'fit' && "bg-[hsl(var(--status-fit)/0.25)] [&>div]:bg-status-fit",
+                    player.status === 'tired' && "bg-[hsl(var(--status-tired)/0.25)] [&>div]:bg-status-tired",
+                    player.status === 'risk' && "bg-[hsl(var(--status-risk)/0.25)] [&>div]:bg-status-risk"
                   )}
                 />
               </div>
