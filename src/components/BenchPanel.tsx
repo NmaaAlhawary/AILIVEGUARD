@@ -1,7 +1,8 @@
 import { SubstitutePlayer } from '@/types/player';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
-import { UserPlus, Settings } from 'lucide-react';
+import { UserPlus, Settings, Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { getInitials } from '@/utils/playerPhotos';
 
 interface BenchPanelProps {
@@ -11,6 +12,7 @@ interface BenchPanelProps {
 }
 
 export const BenchPanel = ({ substitutes, onSubstitute, onManagePlayers }: BenchPanelProps) => {
+  const navigate = useNavigate();
   return (
     <div className="space-y-3">
       <h2 className="text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4">Available Substitutes</h2>
@@ -47,14 +49,16 @@ export const BenchPanel = ({ substitutes, onSubstitute, onManagePlayers }: Bench
           </Card>
         ))}
       </div>
-      <Button 
-        onClick={onManagePlayers} 
-        variant="outline" 
-        className="w-full gap-2 mt-4"
-      >
-        <Settings className="h-4 w-4" />
-        Manage Players
-      </Button>
+      <div className="mt-4 grid grid-cols-2 gap-2">
+        <Button onClick={() => navigate('/squad')} className="gap-2 bg-status-fit text-black hover:bg-status-fit/90">
+          <Users className="h-4 w-4" />
+          Player profiles
+        </Button>
+        <Button onClick={onManagePlayers} variant="outline" className="gap-2">
+          <Settings className="h-4 w-4" />
+          Manage Players
+        </Button>
+      </div>
     </div>
   );
 };

@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Barlow', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Rajdhani', 'Barlow', 'ui-sans-serif', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
