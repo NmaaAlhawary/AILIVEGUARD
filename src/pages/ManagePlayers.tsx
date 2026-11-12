@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Home, Save, Upload, X, Plus, Trash2, UserRound } from 'lucide-react';
+import { Home, Save, Upload, X, Plus, Trash2, UserRound, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -85,15 +85,15 @@ const ProfileButton = ({ name }: { name: string }) => {
   const navigate = useNavigate();
   return (
     <Button
-      variant="ghost"
-      size="icon"
+      variant="outline"
+      size="sm"
       disabled={!name.trim()}
       onClick={() => navigate(`/player/${encodeURIComponent(name.trim())}`)}
       aria-label={`Open ${name || 'player'} profile`}
-      title="View profile and history"
-      className="shrink-0 text-muted-foreground hover:text-status-fit"
+      className="shrink-0 gap-1.5 border-status-fit/40 text-status-fit hover:bg-status-fit/10 hover:text-status-fit"
     >
       <UserRound className="h-4 w-4" />
+      Profile
     </Button>
   );
 };
@@ -222,6 +222,13 @@ const ManagePlayers = () => {
               Update names and photos
             </p>
           </div>
+          <Button
+            onClick={() => navigate('/squad')}
+            className="ml-auto gap-2 bg-status-fit text-black hover:bg-status-fit/90"
+          >
+            <Users className="h-4 w-4" />
+            All profiles
+          </Button>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">

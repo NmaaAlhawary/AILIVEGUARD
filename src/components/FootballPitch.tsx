@@ -8,7 +8,18 @@ interface FootballPitchProps {
 
 export const FootballPitch = ({ players, onPlayerClick }: FootballPitchProps) => {
   return (
-    <div className="relative w-full aspect-[2/3] bg-pitch-grass rounded-lg border-[3px] sm:border-4 border-pitch-line shadow-2xl overflow-hidden">
+    <div
+      className="relative w-full aspect-[2/3] overflow-hidden rounded-2xl border-2 border-white/70 shadow-[0_0_0_1px_hsl(var(--primary)/0.35),0_0_40px_-6px_hsl(var(--primary)/0.45),0_30px_60px_-20px_rgba(0,0,0,0.8)]"
+      style={{
+        // Mowed stripes, a floodlight from above and darker corners, like a broadcast camera view.
+        backgroundColor: 'hsl(140 45% 24%)',
+        backgroundImage: [
+          'radial-gradient(ellipse 90% 60% at 50% 35%, hsl(120 60% 70% / 0.18), transparent 70%)',
+          'radial-gradient(ellipse 120% 90% at 50% 50%, transparent 55%, hsl(150 60% 4% / 0.55))',
+          'repeating-linear-gradient(180deg, hsl(140 48% 27%) 0 8.33%, hsl(140 44% 22%) 8.33% 16.66%)',
+        ].join(', '),
+      }}
+    >
       {/* Pitch markings */}
       <div className="absolute inset-0">
         {/* Center circle */}

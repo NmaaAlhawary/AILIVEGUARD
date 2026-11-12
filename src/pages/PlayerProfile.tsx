@@ -323,7 +323,7 @@ const PlayerProfile = () => {
               </div>
 
               <div className="min-w-0 flex-1 text-center sm:text-left">
-                <h1 className="text-3xl font-black tracking-tight md:text-5xl">{name}</h1>
+                <h1 className="font-display text-4xl font-bold uppercase tracking-wide md:text-6xl">{name}</h1>
                 <div className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
                   <span className="rounded-full bg-status-fit/15 px-3 py-1 text-sm font-bold text-status-fit">{role}</span>
                   <span className="rounded-full bg-muted px-3 py-1 text-sm">{entry.squad}</span>
@@ -418,19 +418,19 @@ const PlayerProfile = () => {
 
         <Tabs defaultValue="overview">
           <TabsList className="h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl bg-card p-1.5 sm:w-auto">
-            <TabsTrigger value="overview" className="gap-2 rounded-xl px-4 py-2">
+            <TabsTrigger value="overview" className="gap-2 rounded-xl px-4 py-2 font-display text-base font-bold uppercase tracking-wide data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-[0_0_18px_hsl(var(--primary)/0.6)]">
               <Gauge className="h-4 w-4" /> Overview
             </TabsTrigger>
-            <TabsTrigger value="matches" className="gap-2 rounded-xl px-4 py-2">
+            <TabsTrigger value="matches" className="gap-2 rounded-xl px-4 py-2 font-display text-base font-bold uppercase tracking-wide data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-[0_0_18px_hsl(var(--primary)/0.6)]">
               <Activity className="h-4 w-4" /> Matches
             </TabsTrigger>
-            <TabsTrigger value="medical" className="gap-2 rounded-xl px-4 py-2">
+            <TabsTrigger value="medical" className="gap-2 rounded-xl px-4 py-2 font-display text-base font-bold uppercase tracking-wide data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-[0_0_18px_hsl(var(--primary)/0.6)]">
               <Stethoscope className="h-4 w-4" /> Medical
               {info.injuries.length > 0 && (
                 <span className="rounded-full bg-muted px-1.5 text-xs">{info.injuries.length}</span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="notes" className="gap-2 rounded-xl px-4 py-2">
+            <TabsTrigger value="notes" className="gap-2 rounded-xl px-4 py-2 font-display text-base font-bold uppercase tracking-wide data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-[0_0_18px_hsl(var(--primary)/0.6)]">
               <StickyNote className="h-4 w-4" /> Notes
               {info.notesLog.length > 0 && (
                 <span className="rounded-full bg-muted px-1.5 text-xs">{info.notesLog.length}</span>
