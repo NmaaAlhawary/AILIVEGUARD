@@ -300,33 +300,16 @@ const GaugeView = ({ history, status }: ReadinessTrendProps) => {
 };
 
 type View = 'line' | 'bars' | 'gauge';
-const VIEW_KEY = 'readinessView';
 const views: { id: View; label: string }[] = [
   { id: 'line', label: 'Line' },
   { id: 'bars', label: 'Bars' },
   { id: 'gauge', label: 'Gauge' },
 ];
 
-const loadView = (): View => {
-  try {
-    const saved = localStorage.getItem(VIEW_KEY);
-    return saved === 'bars' || saved === 'gauge' ? saved : 'line';
-  } catch {
-    return 'line';
-  }
-};
-
+// Always opens on the gauge: the coach needs the number now, the history is one tap away.
 export const ReadinessTrend = ({ history, status }: ReadinessTrendProps) => {
-  const [view, setView] = useState<View>(loadView);
-
-  const choose = (next: View) => {
-    setView(next);
-    try {
-      localStorage.setItem(VIEW_KEY, next);
-    } catch {
-      // Fine without it; the choice just won't be remembered.
-    }
-  };
+  const [view, setView] = useState<View>('gauge');
+  const choose = setView;
 
   return (
     <div className="rounded-xl bg-black/45 p-4">

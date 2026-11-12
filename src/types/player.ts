@@ -8,6 +8,9 @@ export interface PlayerBaseline {
 export interface FatigueReason {
   label: string;
   detail: string;
+  // The number the coach acts on, shown big (e.g. "-31%"), and what it means in a few words.
+  value: string;
+  caption: string;
   severity: number;
 }
 

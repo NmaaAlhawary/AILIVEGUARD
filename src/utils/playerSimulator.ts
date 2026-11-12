@@ -88,16 +88,22 @@ const describeSignals = (player: Player): FatigueReason[] => {
     {
       label: 'Sprint speed',
       detail: `down ${Math.round(s.speedDrop * 100)}% from his best`,
+      value: `−${Math.max(0, Math.round(s.speedDrop * 100))}%`,
+      caption: 'below his best speed',
       severity: s.speedComponent * WEIGHTS.speed,
     },
     {
       label: 'Heart rate',
       detail: `at ${Math.round(s.heartRateReserve * 100)}% of his own maximum`,
+      value: `${Math.round(s.heartRateReserve * 100)}%`,
+      caption: 'of his max heart rate',
       severity: s.heartRateComponent * WEIGHTS.heartRate,
     },
     {
       label: 'Recovery',
       detail: `${(1 / (1 - Math.min(0.85, s.recoveryLoss))).toFixed(1)}x slower than his normal`,
+      value: `${(1 / (1 - Math.min(0.85, s.recoveryLoss))).toFixed(1)}×`,
+      caption: 'slower recovery than normal',
       severity: s.recoveryComponent * WEIGHTS.recovery,
     },
   ];
@@ -260,5 +266,13 @@ export const updatePlayerData = (player: Player): Player => {
     position: { x: newX, y: newY },
   };
 };
+
+// Baseline for a position, so bench players and profiles get believable numbers too.
+const roleProfileIndex: Record<string, number> = {
+  GK: 0, LB: 1, CB: 2, RB: 4, CDM: 5, CM: 5, CAM: 7, LW: 8, ST: 9, RW: 10,
+};
+
+export const getBaselineForRole = (role: string): PlayerBaseline =>
+  profiles[roleProfileIndex[role] ?? 5].baseline;
 
 export { RISK_THRESHOLD };
