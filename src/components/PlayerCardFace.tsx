@@ -134,14 +134,14 @@ export const PlayerCardFace = ({ player }: { player: Player }) => {
         </div>
       </div>
 
-      <dl className="mx-auto mt-3 grid max-w-[190px] grid-flow-col grid-cols-2 grid-rows-3 gap-x-2 gap-y-1 rounded-lg bg-white/[0.04] px-2.5 py-2 text-[9px] leading-tight">
+      <dl className="mx-auto mt-7 grid max-w-[150px] grid-flow-col grid-cols-2 grid-rows-3 gap-x-2 gap-y-0.5 rounded-md bg-white/[0.03] px-2 py-1.5 text-[7.5px] leading-tight opacity-80">
         {stats.map(stat => (
           <div
             key={stat.label}
             title={stat.unit ? `${stat.label} (${stat.unit})` : stat.label}
             className="flex items-baseline gap-1"
           >
-            <dt className="w-5 shrink-0 font-extrabold tracking-wide text-[#e9c870]">
+            <dt className="w-4 shrink-0 font-extrabold tracking-wide text-[#e9c870]">
               {stat.short}
             </dt>
             <dd className="truncate text-white/60">{stat.label}</dd>

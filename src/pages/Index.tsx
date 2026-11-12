@@ -12,6 +12,7 @@ import { SUB_PHOTOS_KEY, loadPhotos } from '@/utils/playerPhotos';
 import { getDefaultPhoto } from '@/utils/defaultPhotos';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import logoMark from '@/assets/logo-mark.png';
 
 const defaultSubNames = ['Ter Stegen', 'Inaki Pena', 'Pedri', 'Fermin Lopez', 'Raphinha', 'Lewandowski', 'Ferran Torres', 'Joao Felix'];
 
@@ -170,8 +171,9 @@ const Index = () => {
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="text-center md:text-left">
               <div className="mb-2 flex items-center justify-center gap-3 md:justify-start">
+                <img src={logoMark} alt="FotGuard logo" className="h-16 w-16 shrink-0 drop-shadow-[0_0_12px_rgba(34,197,94,0.35)] sm:h-20 sm:w-20 lg:h-24 lg:w-24" />
                 <h1 className="text-2xl font-bold text-status-fit sm:text-3xl md:text-4xl lg:text-5xl">
-                  AILiveGuard System
+                  <span className="text-foreground">Fot</span>Guard
                 </h1>
                 <span className="flex items-center gap-1.5 rounded-full border border-status-risk/40 bg-status-risk/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-status-risk">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-status-risk" />

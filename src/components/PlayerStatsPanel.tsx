@@ -101,7 +101,8 @@ export const PlayerStatsPanel = ({ players }: PlayerStatsPanelProps) => {
                 <div className="mt-2 pt-2 border-t border-border/50 space-y-0.5">
                   {player.reasons.slice(0, 2).map((reason) => (
                     <p key={reason.label} className="text-[11px] text-muted-foreground leading-snug">
-                      <span className="font-semibold text-foreground">{reason.label}</span> {reason.detail}
+                      <span className="mr-1 text-sm font-black tabular-nums text-foreground">{reason.value}</span>
+                      <span className="font-semibold text-foreground">{reason.label}</span> {reason.caption}
                     </p>
                   ))}
                 </div>

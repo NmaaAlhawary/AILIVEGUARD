@@ -6,7 +6,9 @@ import {
   Flag,
   Gauge,
   TriangleAlert,
+  UserRound,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dialog';
 import { cn } from '@/lib/utils';
 import { ReadinessTrend } from './ReadinessTrend';
@@ -24,6 +26,7 @@ interface PlayerCardProps {
 
 export const PlayerCard = ({ player, substitutes, onSubstitute, onClose }: PlayerCardProps) => {
   const [picking, setPicking] = useState(false);
+  const navigate = useNavigate();
 
   if (!player) return null;
 
@@ -91,10 +94,15 @@ export const PlayerCard = ({ player, substitutes, onSubstitute, onClose }: Playe
                             <Icon className="h-[18px] w-[18px]" />
                           </span>
                           <div className="min-w-0 flex-1">
-                            <div className="flex items-baseline justify-between gap-2">
-                              <span className="text-sm font-bold">{reason.label}</span>
-                              <span className="text-[11px] font-semibold uppercase tracking-wide opacity-75">
-                                {level.word}
+                            <div className="flex items-end justify-between gap-2">
+                              <div className="min-w-0">
+                                <span className="text-sm font-bold">{reason.label}</span>
+                                <span className="ml-2 text-[11px] font-semibold uppercase tracking-wide opacity-75">
+                                  {level.word}
+                                </span>
+                              </div>
+                              <span className="text-2xl font-black leading-none tabular-nums" style={{ color }}>
+                                {reason.value}
                               </span>
                             </div>
                             <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
@@ -106,7 +114,7 @@ export const PlayerCard = ({ player, substitutes, onSubstitute, onClose }: Playe
                                 }}
                               />
                             </div>
-                            <p className="mt-1 text-xs opacity-75">{reason.detail}</p>
+                            <p className="mt-1 text-xs opacity-75">{reason.caption}</p>
                           </div>
                         </li>
                       );
@@ -161,6 +169,15 @@ export const PlayerCard = ({ player, substitutes, onSubstitute, onClose }: Playe
                   Substitute this player
                 </Button>
               )}
+
+              <Button
+                variant="ghost"
+                onClick={() => navigate(`/player/${encodeURIComponent(player.name)}`)}
+                className="mt-2 w-full gap-2 text-white hover:bg-white/10 hover:text-white"
+              >
+                <UserRound className="h-4 w-4" />
+                Full profile and history
+              </Button>
             </div>
           </div>
         </div>

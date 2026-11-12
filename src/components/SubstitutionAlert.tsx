@@ -139,9 +139,12 @@ export const SubstitutionAlert = ({
                             {level.word}
                           </span>
                         </div>
+                        <div className="mt-2 text-3xl font-black leading-none tabular-nums sm:text-4xl">
+                          {reason.value}
+                        </div>
                         <div className="mt-1.5 text-xs font-bold">{reason.label}</div>
-                        <div className="mt-0.5 text-[11px] leading-snug text-white/70">
-                          {reason.detail}
+                        <div className="mt-0.5 text-[11px] leading-snug text-white/65">
+                          {reason.caption}
                         </div>
                         <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/20">
                           <div

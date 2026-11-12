@@ -1,4 +1,4 @@
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo-full.png';
 
 interface LoadingScreenProps {
   message?: string;
@@ -12,8 +12,8 @@ export const LoadingScreen = ({ message = 'Initializing System...' }: LoadingScr
         <div className="relative">
           <img 
             src={logo} 
-            alt="AILiveGuard Logo" 
-            className="w-48 h-48 animate-pulse"
+            alt="FotGuard" 
+            className="w-64 h-64 animate-pulse"
           />
           {/* Glow effect */}
           <div className="absolute inset-0 bg-gradient-primary opacity-20 blur-3xl animate-pulse" />
@@ -21,9 +21,6 @@ export const LoadingScreen = ({ message = 'Initializing System...' }: LoadingScr
 
         {/* Brand name */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-status-fit animate-fade-in">
-            AILiveGuard
-          </h1>
           <p className="text-xl text-secondary animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Player Monitoring System
           </p>

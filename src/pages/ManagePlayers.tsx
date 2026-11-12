@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Home, Save, Upload, X, Plus, Trash2 } from 'lucide-react';
+import { Home, Save, Upload, X, Plus, Trash2, UserRound } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -78,6 +78,23 @@ const PhotoPicker = ({ id, name, photo, onSelect, onRemove }: PhotoPickerProps) 
       </button>
     )}
   </div>
+  );
+};
+
+const ProfileButton = ({ name }: { name: string }) => {
+  const navigate = useNavigate();
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      disabled={!name.trim()}
+      onClick={() => navigate(`/player/${encodeURIComponent(name.trim())}`)}
+      aria-label={`Open ${name || 'player'} profile`}
+      title="View profile and history"
+      className="shrink-0 text-muted-foreground hover:text-status-fit"
+    >
+      <UserRound className="h-4 w-4" />
+    </Button>
   );
 };
 
@@ -231,6 +248,7 @@ const ManagePlayers = () => {
                       onChange={(e) => handlePlayerNameChange(index, e.target.value)}
                       placeholder={`Player ${index + 1} name`}
                     />
+                    <ProfileButton name={name} />
                   </div>
                 </div>
               ))}
@@ -261,6 +279,7 @@ const ManagePlayers = () => {
                       placeholder={`Substitute ${index + 1} name`}
                       autoFocus={name === '' && index === substituteNames.length - 1}
                     />
+                    <ProfileButton name={name} />
                     <Button
                       variant="ghost"
                       size="icon"
