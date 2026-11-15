@@ -1,5 +1,6 @@
 import { PlayerBaseline } from '@/types/player';
 import { normalise } from '@/utils/defaultPhotos';
+import { getPastInjuries, getPlayerFacts } from '@/utils/playerFacts';
 import { getNaturalPosition } from '@/utils/playerPositions';
 import { getBaselineForRole, RISK_THRESHOLD } from '@/utils/playerSimulator';
 import { TrackingWindow, getTrackedPlayer } from '@/utils/realData';
@@ -35,6 +36,8 @@ export interface ProfileInfo {
   injuries: InjuryEntry[];
   notesLog: NoteEntry[];
   customFields: CustomField[];
+  // Set once the real injury history has been added, so deleting an entry keeps it deleted.
+  injuriesSeeded?: boolean;
 }
 
 export const emptyProfile: ProfileInfo = {
@@ -54,6 +57,19 @@ export const loadProfile = (name: string): ProfileInfo => {
   try {
     const all = JSON.parse(localStorage.getItem(PROFILES_KEY) ?? '{}');
     const saved: ProfileInfo = { ...emptyProfile, ...(all[normalise(name)] ?? {}) };
+    // Real public facts fill any box the coach hasn't filled in himself.
+    const facts = getPlayerFacts(name);
+    if (facts) {
+      for (const [key, value] of Object.entries(facts) as [keyof typeof facts, string][]) {
+        if (!saved[key]?.trim()) saved[key] = value;
+      }
+    }
+    if (!saved.injuriesSeeded) {
+      const known = new Set(saved.injuries.map(i => `${i.date}|${i.description}`));
+      saved.injuries = [...saved.injuries, ...getPastInjuries(name).filter(i => !known.has(`${i.date}|${i.description}`))]
+        .sort((a, b) => b.date.localeCompare(a.date));
+      saved.injuriesSeeded = true;
+    }
     // Older profiles kept one free-text note; turn it into the first dated entry.
     if (saved.notes.trim() && saved.notesLog.length === 0) {
       saved.notesLog = [{ date: new Date().toISOString().slice(0, 10), text: saved.notes.trim() }];
@@ -61,7 +77,7 @@ export const loadProfile = (name: string): ProfileInfo => {
     }
     return saved;
   } catch {
-    return { ...emptyProfile };
+    return { ...emptyProfile, ...(getPlayerFacts(name) ?? {}), injuries: getPastInjuries(name), injuriesSeeded: true };
   }
 };
 
